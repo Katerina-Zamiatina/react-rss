@@ -15,8 +15,9 @@ export type ProductT = {
 
 export const getProducts = async () => {
   try {
-    const data: ProductT[] = await axiosInstance.get('/products?limit=15');
-    return data;
+    const data = await axiosInstance.get('/products?limit=15');
+    const result: ProductT[] = data.data;
+    return result;
   } catch (error) {
     console.error(`Error fetching books: ${error}`);
     return [];
