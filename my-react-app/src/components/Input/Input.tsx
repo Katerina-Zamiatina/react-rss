@@ -39,9 +39,9 @@ class Input extends Component<InputProps, InputState> {
   render() {
     return (
       <div className="formWrapper">
-        <form>
+        <form className="form">
           <label htmlFor="">
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
+            <input className="searchBar" type="text" value={this.state.value} onChange={this.handleChange} />
           </label>
           <button disabled>Search</button>
         </form>

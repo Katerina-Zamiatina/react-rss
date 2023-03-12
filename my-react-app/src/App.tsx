@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
+import './App.css';
 
 const MainPage = lazy(() => import('./pages/MainPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));

@@ -5,14 +5,14 @@ import './Header.css';
 class Header extends Component {
   render() {
     return (
-      <div className="header">
+      <header className="header">
         <NavLink to="/" className="navLink">
           Main
         </NavLink>
         <NavLink to="/about" className="navLink">
           About
         </NavLink>
-      </div>
+      </header>
     );
   }
 }

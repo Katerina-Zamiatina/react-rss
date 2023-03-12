@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import './AboutPage.css';
 
 class AboutPage extends Component {
   render() {
-    return <div>About Page</div>;
+    return <div className="aboutPage">About Page</div>;
   }
 }
 

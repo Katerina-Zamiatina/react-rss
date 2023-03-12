@@ -1,0 +1,11 @@
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchBar {
+  padding: 0.7em 1.2em;
+  margin-right: 10px;
+  border: 1px solid #3d429f;
+}
