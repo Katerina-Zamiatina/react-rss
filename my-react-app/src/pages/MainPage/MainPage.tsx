@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Input from '../../components/Input';
 
-const MainPage = () => {
-  return <div>Main Page</div>;
-};
+class MainPage extends Component {
+  render() {
+    return (
+      <div>
+        <Input name="inputValue" />
+      </div>
+    );
+  }
+}
 
 export default MainPage;
