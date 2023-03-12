@@ -1,0 +1,11 @@
+.header {
+  padding: 20px;
+}
+.navLink {
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+.active {
+  color: red;
+}
