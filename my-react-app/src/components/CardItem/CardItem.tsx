@@ -20,7 +20,7 @@ class CardItem extends Component<artProp> {
             <p className="author">{art.author}</p>
           </div>
           <div>
-            <p className="description">"{art.short_description}"</p>
+            <p className="description">{art.short_description}</p>
             <p className="date">
               <span className="added">Added at </span> {data}
             </p>

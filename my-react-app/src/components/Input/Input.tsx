@@ -31,7 +31,6 @@ class Input extends Component<InputProps, InputState> {
   }
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    event.preventDefault();
     const newValue = event.target.value;
     this.setState({ value: newValue });
   }
@@ -41,7 +40,12 @@ class Input extends Component<InputProps, InputState> {
       <div className="formWrapper">
         <form className="form">
           <label htmlFor="">
-            <input className="searchBar" type="text" value={this.state.value} onChange={this.handleChange} />
+            <input
+              className="searchBar"
+              type="text"
+              value={this.state.value}
+              onChange={this.handleChange}
+            />
           </label>
           <button disabled>Search</button>
         </form>

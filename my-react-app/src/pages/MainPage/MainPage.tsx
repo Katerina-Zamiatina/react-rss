@@ -6,7 +6,7 @@ import './MainPage.css';
 class MainPage extends Component {
   render() {
     return (
-      <div className='mainPage'>
+      <div className="mainPage">
         <Input name="inputValue" />
         <CardsList />
       </div>
