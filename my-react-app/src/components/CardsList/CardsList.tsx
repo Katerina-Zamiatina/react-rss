@@ -1,25 +1,35 @@
 import React, { Component } from 'react';
-import { ProductT, getProducts } from '../../services/api-service';
 import CardItem from '../CardItem';
+import './CardsList.css';
+import { images } from '../../data';
+
+export type ArtT = {
+  id: string;
+  author: string;
+  url: string;
+  download_url: string;
+  title: string;
+  added_at: string;
+  short_description: string;
+};
 
 class CardsList extends Component {
   state = {
-    products: [],
+    arts: [],
   };
 
   async componentDidMount() {
-    const data = await getProducts();
-    this.setState({ products: data });
+    this.setState({ arts: images });
   }
 
   render() {
-    const { products } = this.state;
+    const { arts } = this.state;
 
     return (
-      <div className="gallery">
-        <ul>
-          {products?.map((product: ProductT) => (
-            <CardItem key={product.id} product={product} />
+      <div className="galleryWrapper">
+        <ul className="gallery">
+          {arts?.map((art: ArtT) => (
+            <CardItem key={art.id} art={art} />
           ))}
         </ul>
       </div>

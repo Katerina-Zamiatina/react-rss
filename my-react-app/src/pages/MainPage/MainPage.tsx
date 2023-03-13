@@ -8,7 +8,7 @@ class MainPage extends Component {
     return (
       <div className='mainPage'>
         <Input name="inputValue" />
-        {/* <CardsList /> */}
+        <CardsList />
       </div>
     );
   }
