@@ -1,85 +1,96 @@
-import React from 'react';
-import styles from './Form.module.scss';
+import React, { Component, createRef } from 'react';
 
-class Form extends React.Component {
+interface FormProps {}
+
+interface FormState {
+  title: string;
+  author: string;
+  addedAt: string;
+  type: string;
+  agreement: boolean;
+  artwork: string;
+}
+
+class Form extends Component<FormProps, FormState> {
+  private titleRef: React.RefObject<HTMLInputElement>;
+  private authorRef: React.RefObject<HTMLInputElement>;
+  private addedAtRef: React.RefObject<HTMLInputElement>;
+  private typeRef: React.RefObject<HTMLSelectElement>;
+  private agreementRef: React.RefObject<HTMLInputElement>;
+  private artworkRef: React.RefObject<HTMLInputElement>;
+
+  constructor(props: FormProps) {
+    super(props);
+
+    this.state = {
+      title: '',
+      author: '',
+      addedAt: '',
+      type: '',
+      agreement: false,
+      artwork: '',
+    };
+
+    this.titleRef = createRef<HTMLInputElement>();
+    this.authorRef = createRef<HTMLInputElement>();
+    this.addedAtRef = createRef<HTMLInputElement>();
+    this.typeRef = createRef<HTMLSelectElement>();
+    this.agreementRef = createRef<HTMLInputElement>();
+    this.artworkRef = createRef<HTMLInputElement>();
+  }
+
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData: FormState = {
+      title: this.titleRef.current?.value || '',
+      author: this.authorRef.current?.value || '',
+      addedAt: this.addedAtRef.current?.value || '',
+      type: this.typeRef.current?.value || '',
+      agreement: this.agreementRef.current?.checked || false,
+      artwork: this.artworkRef.current?.value || '',
+    };
+
+    console.log(formData);
+    // do something with the form data
+  };
+
   render() {
     return (
-      <form className="form">
-        <div className="form__name">
-          <h1>Form</h1>
+      <form onSubmit={this.handleSubmit}>
+        <div>
+          <label htmlFor="title">Title:</label>
+          <input type="text" id="title" ref={this.titleRef} />
         </div>
-        <div className={styles.form__row}>
-          <div className={`${styles.form__input} first-name`}>
-            <label>
-              First Name
-              <input type="text" />
-            </label>
-          </div>
-          <div className={`${styles.form__input} last-name`}>
-            <label>
-              Last Name
-              <input type="text" />
-            </label>
-          </div>
-          <div className={`${styles.form__input} email`}>
-            <label>
-              Email
-              <input type="email" />
-            </label>
-          </div>
+        <div>
+          <label htmlFor="author">Author:</label>
+          <input type="text" id="author" ref={this.authorRef} />
         </div>
-        <div className={`${styles.form__input} data`}>
-          <label>
-            Select your date of birth
-            <input type="date" />
-          </label>
+        <div>
+          <label htmlFor="addedAt">Added At:</label>
+          <input type="date" id="addedAt" ref={this.addedAtRef} />
         </div>
-        <div className={`${styles.form__input} select`}>
-          <label>
-            Pick your favorite action:
-            <select>
-              <option value="make">Make money</option>
-              <option value="spend">Spend money</option>
-              <option value="stay">Stay at home</option>
-              <option value="lick">Lick at home</option>
-            </select>
-          </label>
+        <div>
+          <label htmlFor="type">Type:</label>
+          <select id="type" ref={this.typeRef}>
+            <option value="painting">Painting</option>
+            <option value="sculpture">Sculpture</option>
+            <option value="architecture">Architecture</option>
+            <option value="photography">Photography</option>
+          </select>
         </div>
-
-        <div className={`${styles.form__input} file`}>
-          <label>
-            Choose a picture of something <input type="file" />
-          </label>
+        <div>
+          <label htmlFor="agreement">Agree to Data Processing:</label>
+          <input type="checkbox" id="agreement" ref={this.agreementRef} />
         </div>
-        <div className={`${styles.form__input} radio`}>
-          <fieldset>
-            <legend>Select the opposite button</legend>
-            <label>
-              <input type="radio" checked name="opposite" value="notThis" />
-              this button
-            </label>
-            <label>
-              <input type="radio" name="opposite" value="this" />
-              opposite button
-            </label>
-          </fieldset>
+        <div>
+          <label>Artwork:</label>
+          <input type="file" ref={this.artworkRef} />
         </div>
-        <div className={`${styles.form__input} checkbox`}>
-          <label>
-            You agree to your data being sent
-            <input type="checkbox" />
-          </label>
-        </div>
-        <div className="button">
-          <button type="submit" className={`${styles.button_submit} btn`}>
-            Submit
-          </button>
-          <button type="reset" className={`${styles.button_reset} btn`}>
-            Reset
-          </button>
-        </div>
+        <button type="submit">Submit</button>
       </form>
     );
   }
 }
+
 export default Form;
