@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import './CardItem.css';
 import { ArtT } from 'components/CardsList/CardsList';
 
-type artProp = {
+type ArtProp = {
   art: ArtT;
 };
 
-class CardItem extends Component<artProp> {
+class CardItem extends Component<ArtProp> {
   render() {
     const { art } = this.props;
     const data = this.props.art.added_at.slice(0, 10);
 
     return (
-      <li className="item">
+      <li className="item" data-testid="card-item">
         <img src={art.download_url} alt={art.title} className="image" />
         <div className="infoWrapper">
           <div>

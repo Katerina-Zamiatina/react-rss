@@ -7,6 +7,7 @@ import './App.css';
 const MainPage = lazy(() => import('./pages/MainPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const Page404 = lazy(() => import('./pages/Page404'));
+const FormPage = lazy(() => import('./pages/FormPage'));
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/form" element={<FormPage />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
       </Suspense>

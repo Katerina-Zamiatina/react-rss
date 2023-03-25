@@ -1,31 +1,28 @@
-import React from 'react';
-import { mount } from 'vitest-utils';
+import { fireEvent, render, screen } from '@testing-library/react';
+// import { describe, it } from 'vitest';
 import Input from '../Input';
+import React from 'react';
 
-describe('Input component', () => {
-  const name = 'inputValue';
+const name = 'inputValue';
 
-  it('renders without crashing', () => {
-    mount(<Input name={name} />);
+describe('Card', () => {
+  it('renders Search component', () => {
+    render(<Input name={name} />);
   });
 
-  it('saves input value to local storage', () => {
-    const wrapper = mount(<Input name={name} />);
-    const input = wrapper.find('input');
+  it('input value changes on user input', () => {
+    const { getByRole } = render(<Input name={name} />);
+    const input = getByRole('textbox');
 
-    const event = { target: { value: 'test' } };
-    input.simulate('change', event);
-
-    const savedValue = localStorage.getItem(name);
-    expect(savedValue).toEqual('test');
+    fireEvent.change(input, { target: { value: 'new value' } });
+    expect((input as HTMLInputElement).value).toBe('new value');
   });
 
-  it('loads input value from local storage', () => {
-    localStorage.setItem(name, 'test');
+  it('saves search value to local storage', () => {
+    const { getByRole } = render(<Input name={name} />);
+    const input = getByRole('textbox');
 
-    const wrapper = mount(<Input name={name} />);
-    const input = wrapper.find('input');
-
-    expect(input.prop('value')).toEqual('test');
+    fireEvent.input(input, { target: { value: 'new value' } });
+    expect(localStorage.getItem(name)).toBe('new value');
   });
 });
