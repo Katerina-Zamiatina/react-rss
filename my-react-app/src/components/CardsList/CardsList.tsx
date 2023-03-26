@@ -38,20 +38,3 @@ class CardsList extends Component {
 }
 
 export default CardsList;
-
-// const CardsList = () => {
-//   const [products, setProducts] = useState<ProductT[]>();
-
-//   const getAllProducts = async () => {
-//     const data = await getProducts();
-//     setProducts(data);
-//   };
-
-//   useEffect(() => {
-//     getAllProducts();
-//   }, []);
-
-//     return <div className="gallery">
-//         <ul>{products?.map(product=><CardItem key={product.id} product={product}/>)}</ul>
-//     </div>;
-// };

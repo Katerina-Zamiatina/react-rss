@@ -33,10 +33,3 @@ class CardItem extends Component<ArtProp> {
 
 export default CardItem;
 
-// const CardItem: FC<artProp> = ({ art }) => {
-//   return (
-//     <li className="item">
-//       <img src={art.image} alt={art.title} />
-//     </li>
-//   );
-// };
