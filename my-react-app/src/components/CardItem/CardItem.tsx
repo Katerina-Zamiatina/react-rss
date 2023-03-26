@@ -32,4 +32,3 @@ class CardItem extends Component<ArtProp> {
 }
 
 export default CardItem;
-

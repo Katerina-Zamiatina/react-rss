@@ -3,7 +3,6 @@ import { FormProps, FormState } from '../../types/types';
 import FormInput from '../FormInput';
 import ErrorMessage from '../ErrorMessage';
 import './Form.css';
-// import defaultImg from '../../assets/default.png';
 
 class Form extends Component<FormProps, FormState> {
   private titleRef = createRef<HTMLInputElement>();
@@ -192,17 +191,19 @@ class Form extends Component<FormProps, FormState> {
         <div className="radio-wrapper">
           <span className="question">This is Your Art? </span>
           <label htmlFor="ownerMy">
-            <span className='radio-answer'>Yes</span>
+            <span className="radio-answer">Yes</span>
             <input id="ownerMy" type="radio" name="owner" value="Yes" ref={this.ownerRefMy} />
           </label>
           <label htmlFor="owner">
-            <span className='radio-answer'>No</span>
+            <span className="radio-answer">No</span>
             <input id="owner" type="radio" name="owner" value="No" ref={this.ownerRef} />
           </label>
         </div>
 
         {hasError && <ErrorMessage message={this.state.errors?.owner} />}
-        <button type="submit" className='submit-btn'>Submit</button>
+        <button type="submit" className="submit-btn">
+          Submit
+        </button>
       </form>
     );
   }

@@ -7,7 +7,7 @@ interface FormPageState {
   formList: FormState[];
 }
 
-export default class FormPage extends Component<{}, FormPageState> {
+export default class FormPage extends Component<unknown, FormPageState> {
   state: FormPageState = {
     formList: [],
   };

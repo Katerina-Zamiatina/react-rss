@@ -65,8 +65,8 @@ class FormInput extends Component<FormInputProps> {
           />
         )}
         {type === 'file' && (
-          <div className='file-input_wrapper'>
-            <button className='choose-btn'>Choose image</button>
+          <div className="file-input_wrapper">
+            <button className="choose-btn">Choose image</button>
             <input
               id={id}
               type="file"
