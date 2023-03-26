@@ -189,17 +189,20 @@ class Form extends Component<FormProps, FormState> {
           onChange={this.handleInputChange}
         />
         {hasError && <ErrorMessage message={this.state.errors?.artwork} />}
-        <p>This is Your Art? </p>
-        <label htmlFor="ownerMy">
-          <span>Yes</span>
-          <input id="ownerMy" type="radio" name="owner" value="Yes" ref={this.ownerRefMy} />
-        </label>
-        <label htmlFor="owner">
-          <span>No</span>
-          <input id="owner" type="radio" name="owner" value="No" ref={this.ownerRef} />
-        </label>
+        <div className="radio-wrapper">
+          <span className="question">This is Your Art? </span>
+          <label htmlFor="ownerMy">
+            <span className='radio-answer'>Yes</span>
+            <input id="ownerMy" type="radio" name="owner" value="Yes" ref={this.ownerRefMy} />
+          </label>
+          <label htmlFor="owner">
+            <span className='radio-answer'>No</span>
+            <input id="owner" type="radio" name="owner" value="No" ref={this.ownerRef} />
+          </label>
+        </div>
+
         {hasError && <ErrorMessage message={this.state.errors?.owner} />}
-        <button type="submit">Submit</button>
+        <button type="submit" className='submit-btn'>Submit</button>
       </form>
     );
   }

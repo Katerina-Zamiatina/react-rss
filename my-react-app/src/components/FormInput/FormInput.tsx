@@ -1,5 +1,6 @@
 import React, { Component, createRef, ChangeEvent } from 'react';
 import { FormInputProps } from '../../types/types';
+import './FormInput.css';
 
 class FormInput extends Component<FormInputProps> {
   private inputRef: React.RefObject<HTMLInputElement | HTMLSelectElement>;
@@ -21,14 +22,17 @@ class FormInput extends Component<FormInputProps> {
     const { label, type, id, inputRef } = this.props;
 
     return (
-      <div>
-        <label htmlFor={id}>{label}</label>
+      <div className="input-wrapper">
+        <label htmlFor={id} className="form-label">
+          {label}
+        </label>
         {type === 'text' && (
           <input
             id={id}
             type="text"
             ref={(inputRef as React.RefObject<HTMLInputElement>) || this.inputRef}
             onChange={this.handleChange}
+            className="form-input"
           />
         )}
         {type === 'date' && (
@@ -37,6 +41,7 @@ class FormInput extends Component<FormInputProps> {
             type="date"
             ref={(inputRef as React.RefObject<HTMLInputElement>) || this.inputRef}
             onChange={this.handleChange}
+            className="form-input"
           />
         )}
         {type === 'select' && (
@@ -44,6 +49,7 @@ class FormInput extends Component<FormInputProps> {
             id={id}
             ref={(inputRef as React.RefObject<HTMLSelectElement>) || this.inputRef}
             onChange={this.handleChange}
+            className="input-select"
             defaultValue=""
           >
             {this.props.children}
@@ -55,15 +61,20 @@ class FormInput extends Component<FormInputProps> {
             type="checkbox"
             ref={(inputRef as React.RefObject<HTMLInputElement>) || this.inputRef}
             onChange={this.handleChange}
+            className="input-checkbox"
           />
         )}
         {type === 'file' && (
-          <input
-            id={id}
-            type="file"
-            ref={(inputRef as React.RefObject<HTMLInputElement>) || this.inputRef}
-            onChange={this.handleChange}
-          />
+          <div className='file-input_wrapper'>
+            <button className='choose-btn'>Choose image</button>
+            <input
+              id={id}
+              type="file"
+              ref={(inputRef as React.RefObject<HTMLInputElement>) || this.inputRef}
+              onChange={this.handleChange}
+              className="input-file"
+            />
+          </div>
         )}
       </div>
     );
