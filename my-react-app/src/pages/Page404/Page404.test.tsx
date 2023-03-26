@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-// import { describe, it } from 'vitest';
 import Page404 from './Page404';
 
 describe('Page 404', () => {

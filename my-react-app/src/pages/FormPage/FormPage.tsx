@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Form from '../../components/Form';
 import { FormState } from '../../types/types';
+import FormCards from '../../components/FormCards';
 
 interface FormPageState {
-  // popupOpen: boolean;
   formList: FormState[];
 }
 
@@ -17,6 +17,11 @@ export default class FormPage extends Component<{}, FormPageState> {
   };
 
   render() {
-    return <Form onSubmit={this.onSubmit} />;
+    return (
+      <div>
+        <Form onSubmit={this.onSubmit} />
+        <FormCards cards={this.state.formList} />
+      </div>
+    );
   }
 }

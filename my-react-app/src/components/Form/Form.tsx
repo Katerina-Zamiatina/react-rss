@@ -1,6 +1,9 @@
 import React, { Component, createRef } from 'react';
 import { FormProps, FormState } from '../../types/types';
 import FormInput from '../FormInput';
+import ErrorMessage from '../ErrorMessage';
+import './Form.css';
+// import defaultImg from '../../assets/default.png';
 
 class Form extends Component<FormProps, FormState> {
   private titleRef = createRef<HTMLInputElement>();
@@ -23,6 +26,8 @@ class Form extends Component<FormProps, FormState> {
       agreement: false,
       owner: false,
       artwork: '',
+      errors: {},
+      hasError: false,
     };
   }
 
@@ -39,7 +44,18 @@ class Form extends Component<FormProps, FormState> {
 
   handleInputChange = (name: keyof FormState, value: string | boolean) => {
     if (typeof this.state[name] !== 'undefined') {
-      this.setState({ [name]: value } as Pick<FormState, keyof FormState>);
+      this.setState({ [name]: value } as unknown as Pick<FormState, keyof FormState>);
+      if (name === 'artwork') {
+        if (this.artworkRef.current?.files) {
+          const imgReader = new FileReader();
+          imgReader.readAsDataURL(this.artworkRef.current.files[0]);
+          imgReader.onloadend = () => {
+            this.setState({ artwork: imgReader.result as string });
+          };
+        } else {
+          this.setState({ artwork: undefined });
+        }
+      }
     }
   };
 
@@ -53,19 +69,72 @@ class Form extends Component<FormProps, FormState> {
       type: this.typeRef.current!.value,
       agreement: this.agreementRef.current!.checked,
       owner: this.ownerRefMy.current!.checked,
-      artwork: this.artworkRef.current?.value
-        ? URL.createObjectURL(this.artworkRef.current?.value)
-        : '',
+      artwork: this.state.artwork,
     };
 
-    console.log(formData);
-    this.props.onSubmit(formData);
-    this.resetForm();
+    const errors: Record<string, string> = {};
+
+    if (!formData.title.trim()) {
+      errors['title'] = 'Title is required';
+      this.setState({ hasError: true });
+    }
+
+    if (!formData.type) {
+      errors['type'] = 'Type is required';
+      this.setState({ hasError: true });
+    }
+
+    if (!formData.agreement) {
+      errors['agreement'] = 'Agreement is required';
+      this.setState({ hasError: true });
+    }
+
+    if (!formData.owner) {
+      errors['owner'] = 'Owner is required';
+      this.setState({ hasError: true });
+    }
+
+    const validAuthor = /^[A-Za-zА-ЯІЇЄҐа-яіїєґ\s.'-]+$/u;
+    if (!formData.author.trim()) {
+      errors['author'] = 'Author is required';
+      this.setState({ hasError: true });
+    } else if (!validAuthor.test(formData.author)) {
+      errors['author'] = 'Author name must start with a capital letter';
+      this.setState({ hasError: true });
+    }
+
+    const today = new Date();
+    const date = new Date(formData.addedAt);
+    if (!formData.addedAt) {
+      errors['addedAt'] = 'Date is required';
+      this.setState({ hasError: true });
+    } else if (date > today) {
+      errors['addedAt'] = 'Date cannot be in the future';
+      this.setState({ hasError: true });
+    }
+
+    const allowedExtensions = /^data:image\/(png|jpeg|jpg);base64,/;
+    if (!formData.artwork) {
+      errors['artwork'] = 'Image is required';
+      this.setState({ hasError: true });
+    } else if (!allowedExtensions.test(formData.artwork)) {
+      errors['artwork'] = 'Only .jpg, .jpeg, and .png files are allowed';
+      this.setState({ hasError: true });
+    }
+
+    if (Object.keys(errors).length === 0) {
+      this.props.onSubmit(formData);
+      this.resetForm();
+      this.setState({ errors: {}, hasError: false });
+    } else {
+      this.setState({ errors, hasError: true });
+    }
   };
 
   render() {
+    const { hasError } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className="form">
         <FormInput
           id="title"
           label="Title:"
@@ -73,6 +142,7 @@ class Form extends Component<FormProps, FormState> {
           inputRef={this.titleRef}
           onChange={this.handleInputChange}
         />
+        {hasError && <ErrorMessage message={this.state.errors?.title} />}
         <FormInput
           id="author"
           label="Author:"
@@ -80,6 +150,7 @@ class Form extends Component<FormProps, FormState> {
           inputRef={this.authorRef}
           onChange={this.handleInputChange}
         />
+        {hasError && <ErrorMessage message={this.state.errors?.author} />}
         <FormInput
           id="addedAt"
           label="Added At:"
@@ -87,6 +158,7 @@ class Form extends Component<FormProps, FormState> {
           inputRef={this.addedAtRef}
           onChange={this.handleInputChange}
         />
+        {hasError && <ErrorMessage message={this.state.errors?.addedAt} />}
         <FormInput
           id="type"
           label="Type:"
@@ -100,6 +172,7 @@ class Form extends Component<FormProps, FormState> {
           <option value="architecture">Architecture</option>
           <option value="photography">Photography</option>
         </FormInput>
+        {hasError && <ErrorMessage message={this.state.errors?.type} />}
         <FormInput
           id="agreement"
           label="Agree to Data Processing:"
@@ -107,6 +180,7 @@ class Form extends Component<FormProps, FormState> {
           inputRef={this.agreementRef}
           onChange={this.handleInputChange}
         />
+        {hasError && <ErrorMessage message={this.state.errors?.agreement} />}
         <FormInput
           id="artwork"
           label="Artwork:"
@@ -114,6 +188,7 @@ class Form extends Component<FormProps, FormState> {
           inputRef={this.artworkRef}
           onChange={this.handleInputChange}
         />
+        {hasError && <ErrorMessage message={this.state.errors?.artwork} />}
         <p>This is Your Art? </p>
         <label htmlFor="ownerMy">
           <span>Yes</span>
@@ -123,7 +198,7 @@ class Form extends Component<FormProps, FormState> {
           <span>No</span>
           <input id="owner" type="radio" name="owner" value="No" ref={this.ownerRef} />
         </label>
-
+        {hasError && <ErrorMessage message={this.state.errors?.owner} />}
         <button type="submit">Submit</button>
       </form>
     );

@@ -2,6 +2,15 @@ export interface FormProps {
   onSubmit: (formFields: FormState) => void;
 }
 
+type Errors = {
+  title?: string;
+  author?: string;
+  addedAt?: string;
+  type?: string;
+  agreement?: string;
+  owner?: string;
+  artwork?: string;
+};
 export interface FormState {
   id?: string;
   title: string;
@@ -10,9 +19,10 @@ export interface FormState {
   type: string;
   agreement: boolean;
   owner: boolean;
-  artwork: string;
+  artwork: string | undefined;
+  errors?: Errors;
+  hasError?: boolean;
 }
-
 
 export interface FormInputProps {
   label: string;
