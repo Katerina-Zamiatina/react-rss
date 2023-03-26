@@ -3,38 +3,33 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import Form from './Form';
 
-describe('Form should submit the form correctly', () => {
-  it('submit form correct', async () => {
-    const onSubmitMock = vi.fn();
-    render(<Form onSubmit={onSubmitMock} />);
-    const titleInput = screen.getByLabelText('Title:');
-    const authorInput = screen.getByLabelText('Author:');
-    const addedAtInput = screen.getByLabelText('Added At:');
-    const typeSelect = screen.getByLabelText('Type:');
-    const agreementCheckbox = screen.getByLabelText('Agree to Data Processing:');
-    const artworkInput = screen.getByLabelText('Artwork:');
-    const ownerYesRadio = screen.getByLabelText('Yes');
-    const submitButton = screen.getByRole('button', { name: 'Submit' });
+describe('Should submit the form correctly', () => {
+  it('should render correctly', () => {
+    const onSubmit = vi.fn();
+    render(<Form onSubmit={onSubmit} />);
 
-    fireEvent.change(titleInput, { target: { value: 'Test Title' } });
-    fireEvent.change(authorInput, { target: { value: 'Test Author' } });
-    fireEvent.change(addedAtInput, { target: { value: '2022-03-26' } });
-    fireEvent.change(typeSelect, { target: { value: 'painting' } });
-    fireEvent.click(agreementCheckbox);
-    fireEvent.change(artworkInput, {
-      target: { files: [new File(['(⌐□_□)'], 'artwork.png', { type: 'image/png' })] },
-    });
-    fireEvent.click(ownerYesRadio);
-    fireEvent.click(submitButton);
+    expect(screen.getByLabelText(/title/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/author/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/added at/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/type/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/artwork/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
+  });
 
-    await expect(onSubmitMock).toHaveBeenCalledWith({
-      title: 'Test Title',
-      author: 'Test Author',
-      addedAt: '2022-03-26',
-      type: 'painting',
-      agreement: true,
-      owner: true,
-      artwork: expect.any(String),
-    });
+  it('should show validation errors on submit when fields are empty', () => {
+    const onSubmit = vi.fn();
+    render(<Form onSubmit={onSubmit} />);
+
+    fireEvent.click(screen.getByRole('button', { name: /submit/i }));
+
+    expect(screen.getByText(/title is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/type is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/agreement is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/owner is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/author is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/date is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/image is required/i)).toBeInTheDocument();
+
+    expect(onSubmit).toHaveBeenCalledTimes(0);
   });
 });

@@ -67,7 +67,7 @@ class Form extends Component<FormProps, FormState> {
       addedAt: this.addedAtRef.current!.value,
       type: this.typeRef.current!.value,
       agreement: this.agreementRef.current!.checked,
-      owner: this.ownerRefMy.current!.checked,
+      owner: this.ownerRefMy.current!.checked || this.ownerRef.current!.checked,
       artwork: this.state.artwork,
     };
 
@@ -112,7 +112,7 @@ class Form extends Component<FormProps, FormState> {
       this.setState({ hasError: true });
     }
 
-    const allowedExtensions = /^data:image\/(png|jpeg|jpg);base64,/;
+    const allowedExtensions = /^data:image\/(png|jpeg|jpg|heic);base64,/;
     if (!formData.artwork) {
       errors['artwork'] = 'Image is required';
       this.setState({ hasError: true });

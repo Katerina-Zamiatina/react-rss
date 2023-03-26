@@ -26,22 +26,21 @@
   border: 1px solid #646cff;
 }
 
-.file-input_wrapper {
+/* .file-input_wrapper {
   position: relative;
   overflow: hidden;
   display: inline-block;
-}
+} */
 
-.input-file {
-  /* font-size: 100px; */
+/* .input-file {
   position: absolute;
   left: 0;
   top: 0;
   opacity: 0;
   cursor: pointer;
-}
+} */
 
-.choose-btn {
+/* .choose-btn {
   display: inline-block;
   background-color: #646cff;
   color: #fff;
@@ -49,4 +48,4 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-}
+} */

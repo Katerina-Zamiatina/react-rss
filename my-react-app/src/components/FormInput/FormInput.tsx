@@ -65,16 +65,16 @@ class FormInput extends Component<FormInputProps> {
           />
         )}
         {type === 'file' && (
-          <div className="file-input_wrapper">
-            <button className="choose-btn">Choose image</button>
-            <input
-              id={id}
-              type="file"
-              ref={(inputRef as React.RefObject<HTMLInputElement>) || this.inputRef}
-              onChange={this.handleChange}
-              className="input-file"
-            />
-          </div>
+          // <div className="file-input_wrapper">
+          //   <button className="choose-btn">Choose image</button>
+          <input
+            id={id}
+            type="file"
+            ref={(inputRef as React.RefObject<HTMLInputElement>) || this.inputRef}
+            onChange={this.handleChange}
+            className="input-file"
+          />
+          // </div>
         )}
       </div>
     );
