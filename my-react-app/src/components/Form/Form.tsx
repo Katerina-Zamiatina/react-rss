@@ -123,6 +123,7 @@ class Form extends Component<FormProps, FormState> {
 
     if (Object.keys(errors).length === 0) {
       this.props.onSubmit(formData);
+      alert('Your art was successfully added');
       this.resetForm();
       this.setState({ errors: {}, hasError: false });
     } else {
