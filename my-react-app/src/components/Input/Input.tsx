@@ -1,57 +1,39 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Input.css';
 
 interface InputProps {
   name: string;
 }
 
-interface InputState {
-  value: string;
-}
+const Input: React.FC<InputProps> = ({ name }) => {
+  const [value, setValue] = useState<string>(localStorage.getItem(name) || '');
 
-class Input extends Component<InputProps, InputState> {
-  constructor(props: InputProps) {
-    super(props);
-
-    this.state = {
-      value: localStorage.getItem(this.props.name) || '',
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentDidMount() {
-    const savedValue = localStorage.getItem(this.props.name);
+  useEffect(() => {
+    const savedValue = localStorage.getItem(name);
     if (savedValue) {
-      this.setState({ value: savedValue });
+      setValue(savedValue);
     }
-  }
+  }, [name]);
 
-  componentWillUnmount() {
-    localStorage.setItem(this.props.name, this.state.value);
-  }
+  useEffect(() => {
+    localStorage.setItem(name, value);
+  }, [name, value]);
 
-  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
-    this.setState({ value: newValue });
-  }
+    setValue(newValue);
+  };
 
-  render() {
-    return (
-      <div className="formWrapper">
-        <form className="form">
-          <label htmlFor="">
-            <input
-              className="searchBar"
-              type="text"
-              value={this.state.value}
-              onChange={this.handleChange}
-            />
-          </label>
-          <button disabled>Search</button>
-        </form>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="formWrapper">
+      <form className="form">
+        <label htmlFor="">
+          <input className="searchBar" type="text" value={value} onChange={handleChange} />
+        </label>
+        <button disabled>Search</button>
+      </form>
+    </div>
+  );
+};
 
 export default Input;

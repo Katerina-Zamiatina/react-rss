@@ -1,15 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './ErrorMessage.css';
 
 interface ErrorMessageProps {
   message: string | undefined;
 }
 
-class ErrorMessage extends Component<ErrorMessageProps> {
-  render() {
-    const { message } = this.props;
-    return <div className="error">{message}</div>;
-  }
-}
+const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => {
+  return <div className="error">{message}</div>;
+};
 
 export default ErrorMessage;

@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './AboutPage.css';
 
-class AboutPage extends Component {
-  render() {
-    return <div className="aboutPage">About Page</div>;
-  }
-}
+const AboutPage: React.FC = () => {
+  return <div className="aboutPage">About Page</div>;
+};
 
 export default AboutPage;

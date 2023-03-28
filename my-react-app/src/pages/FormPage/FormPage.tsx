@@ -1,27 +1,21 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Form from '../../components/Form';
 import { FormState } from '../../types/types';
 import FormCards from '../../components/FormCards';
 
-interface FormPageState {
-  formList: FormState[];
-}
+const FormPage: React.FC = () => {
+  const [formList, setFormList] = useState<FormState[]>([]);
 
-export default class FormPage extends Component<unknown, FormPageState> {
-  state: FormPageState = {
-    formList: [],
+  const onSubmit = (formData: FormState) => {
+    setFormList((prev) => [...prev, formData]);
   };
 
-  onSubmit = (formData: FormState) => {
-    this.setState((prev) => ({ formList: [...prev.formList, formData] }));
-  };
+  return (
+    <div>
+      <Form onSubmit={onSubmit} />
+      <FormCards cards={formList} />
+    </div>
+  );
+};
 
-  render() {
-    return (
-      <div>
-        <Form onSubmit={this.onSubmit} />
-        <FormCards cards={this.state.formList} />
-      </div>
-    );
-  }
-}
+export default FormPage;
