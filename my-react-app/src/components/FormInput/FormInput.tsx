@@ -1,84 +1,89 @@
-import React, { Component, createRef, ChangeEvent } from 'react';
-import { FormInputProps } from '../../types/types';
+import React from 'react';
+import { UseFormRegister, FieldValues, FieldErrors } from 'react-hook-form';
+import ErrorMessage from '../ErrorMessage';
+import { FormState } from '../../types/types';
 import './FormInput.css';
 
-class FormInput extends Component<FormInputProps> {
-  private inputRef: React.RefObject<HTMLInputElement | HTMLSelectElement>;
-
-  constructor(props: FormInputProps) {
-    super(props);
-
-    this.inputRef = createRef<HTMLInputElement | HTMLSelectElement>();
-  }
-
-  handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { id, onChange } = this.props;
-    if (onChange) {
-      onChange(id, event.target.value);
-    }
-  };
-
-  render() {
-    const { label, type, id, inputRef } = this.props;
-
-    return (
-      <div className="input-wrapper">
-        <label htmlFor={id} className="form-label">
-          {label}
-        </label>
-        {type === 'text' && (
-          <input
-            id={id}
-            type="text"
-            ref={(inputRef as React.RefObject<HTMLInputElement>) || this.inputRef}
-            onChange={this.handleChange}
-            className="form-input"
-          />
-        )}
-        {type === 'date' && (
-          <input
-            id={id}
-            type="date"
-            ref={(inputRef as React.RefObject<HTMLInputElement>) || this.inputRef}
-            onChange={this.handleChange}
-            className="form-input"
-          />
-        )}
-        {type === 'select' && (
-          <select
-            id={id}
-            ref={(inputRef as React.RefObject<HTMLSelectElement>) || this.inputRef}
-            onChange={this.handleChange}
-            className="input-select"
-            defaultValue=""
-          >
-            {this.props.children}
-          </select>
-        )}
-        {type === 'checkbox' && (
-          <input
-            id={id}
-            type="checkbox"
-            ref={(inputRef as React.RefObject<HTMLInputElement>) || this.inputRef}
-            onChange={this.handleChange}
-            className="input-checkbox"
-          />
-        )}
-        {type === 'file' && (
-          // <div className="file-input_wrapper">
-          //   <button className="choose-btn">Choose image</button>
-          <input
-            id={id}
-            type="file"
-            ref={(inputRef as React.RefObject<HTMLInputElement>) || this.inputRef}
-            onChange={this.handleChange}
-            className="input-file"
-          />
-          // </div>
-        )}
-      </div>
-    );
-  }
+export interface FormInputProps {
+  label: string;
+  type: 'text' | 'select' | 'checkbox' | 'file' | 'date' | 'radio';
+  id: keyof FormState;
+  errors: FieldErrors<FieldValues>;
+  register: UseFormRegister<FieldValues>;
+  required?: boolean;
 }
+
+const FormInput: React.FC<FormInputProps> = ({ id, label, type, register, required, errors, pattern }) => {
+  const options = ['Sculpture', 'Painting', 'Architecture', 'Photography'];
+  const errorMessage = `${id.toUpperCase()} is required`;
+
+  return (
+    <div className="input-wrapper">
+      <label htmlFor={id} className="form-label">
+        {label}
+      </label>
+      {type === 'text' && (
+        <input
+          id={id}
+          type={type}
+          className="form-input"
+          {...register(id, {
+            required: errorMessage,
+            pattern: {
+              value: /^[A-Za-zА-ЯІЇЄҐа-яіїєґ\s.'-]+$/u,
+              message: 'Must start with a capital letter ',
+            },
+            // validate: ()=>{true}
+          })}
+        />
+      )}
+      {type === 'date' && (
+        <input
+          id={id}
+          type={type}
+          className="form-input"
+          {...register(id, { required: errorMessage })}
+        />
+      )}
+      {type === 'select' && (
+        <select
+          id={id}
+          className="input-select"
+          {...register(id, { required: errorMessage })}
+          defaultValue=""
+        >
+          <option disabled value="">
+            Choose Art Type
+          </option>
+          {options.map((opt, i) => {
+            return (
+              <option key={i} value={opt}>
+                {opt}
+              </option>
+            );
+          })}
+        </select>
+      )}
+      {type === 'file' && (
+        <input
+          id={id}
+          type={type}
+          className="form-input"
+          accept="image/*"
+          {...register(id, { required: errorMessage })}
+        />
+      )}
+      {type === 'checkbox' && (
+        <input
+          id={id}
+          type={type}
+          className="input-checkbox"
+          {...register(id, { required: errorMessage })}
+        />
+      )}
+      {errors[id] && <ErrorMessage message={errors[id].message} />}
+    </div>
+  );
+};
 
 export default FormInput;

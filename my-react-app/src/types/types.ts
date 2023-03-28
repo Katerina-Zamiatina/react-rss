@@ -2,7 +2,7 @@ export interface FormProps {
   onSubmit: (formFields: FormState) => void;
 }
 
-type Errors = {
+export type Errors = {
   title?: string;
   author?: string;
   addedAt?: string;
