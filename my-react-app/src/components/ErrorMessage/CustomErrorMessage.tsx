@@ -1,12 +1,16 @@
 import React from 'react';
-import './ErrorMessage.css';
+import './CustomErrorMessage.css';
 
 interface ErrorMessageProps {
   message: string | undefined;
 }
 
 const CustomErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => {
-  return <div className="error">{message}</div>;
+  return (
+    <div className="error" data-testid="custom-error">
+      {message}
+    </div>
+  );
 };
 
 export default CustomErrorMessage;

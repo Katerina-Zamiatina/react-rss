@@ -1,3 +1,5 @@
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+
 export interface FormProps {
   onSubmit: (formFields: FormState) => void;
 }
@@ -28,9 +30,6 @@ export interface FormInputProps {
   label: string;
   type: 'text' | 'select' | 'checkbox' | 'file' | 'date' | 'radio';
   id: keyof FormState;
-  inputRef?:
-    | React.RefObject<HTMLInputElement | HTMLSelectElement>
-    | ((instance: HTMLInputElement | HTMLSelectElement | null) => void);
-  children?: React.ReactNode;
-  onChange?: (name: keyof FormState, value: string | boolean) => void;
+  errors: FieldErrors<FieldValues>;
+  register: UseFormRegister<FieldValues>;
 }

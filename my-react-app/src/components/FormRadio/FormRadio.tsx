@@ -18,6 +18,7 @@ const FormRadio: React.FC<FormInputProps> = ({ id, type, register, errors }) => 
       <label htmlFor="ownerMy">
         <span className="radio-answer">Yes</span>
         <input
+          data-testid="ownerMy"
           id="ownerMy"
           type={type}
           value="Yes"
@@ -30,6 +31,7 @@ const FormRadio: React.FC<FormInputProps> = ({ id, type, register, errors }) => 
         <span className="radio-answer">No</span>
         <input
           id="owner"
+          data-testid="owner"
           type={type}
           value="No"
           {...register('owner', {

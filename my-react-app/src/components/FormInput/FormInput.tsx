@@ -15,7 +15,6 @@ export interface FormInputProps {
 
 const FormInput: React.FC<FormInputProps> = ({ id, label, type, register, errors }) => {
   const options = ['Sculpture', 'Painting', 'Architecture', 'Photography'];
-  // const { setError } = useForm();
   const errorMessage = `${id.charAt(0).toUpperCase() + id.slice(1)} is required`;
 
   return (
@@ -87,6 +86,7 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, register, errors
       <ErrorMessage
         errors={errors}
         name={id}
+        data-testid="custom-error"
         render={({ messages }) => {
           return (
             messages &&

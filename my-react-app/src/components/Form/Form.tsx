@@ -4,9 +4,10 @@ import FormInput from '../FormInput';
 import FormRadio from '../FormRadio';
 import convertToImgUrl from '../../utils/convertToImgUrl';
 import './Form.css';
+import { FormState } from 'types/types';
 
 interface FormProps {
-  onSubmit: (data: FieldValues) => void;
+  onSubmit: (data: FormState) => void;
 }
 
 const Form: React.FC<FormProps> = ({ onSubmit }) => {
@@ -20,14 +21,14 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const onSubmitHandler = (data: FieldValues) => {
     convertToImgUrl(data.artwork, (result) => {
       data.artwork = result;
-      onSubmit(data);
+      onSubmit(data as FormState);
       alert('Your art was successfully added');
       reset();
     });
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)} className="form-wrapper">
+    <form onSubmit={handleSubmit(onSubmitHandler)} className="form-wrapper" data-testid="form">
       <FormInput id="title" label="Title: " type="text" register={register} errors={errors} />
       <FormInput id="author" label="Author: " type="text" register={register} errors={errors} />
       <FormInput id="addedAt" label="Added at: " type="date" register={register} errors={errors} />
