@@ -1,17 +1,17 @@
 import React from 'react';
 import '../FormInput/FormInput.css';
-import {  UseFormRegister, FieldValues } from 'react-hook-form';
-import ErrorMessage from '../ErrorMessage';
+import { UseFormRegister, FieldValues, FieldErrors } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 import { FormState } from '../../types/types';
-
+import CustomErrorMessage from '../ErrorMessage';
 export interface FormInputProps {
   type: 'text' | 'select' | 'checkbox' | 'file' | 'date' | 'radio';
   id: keyof FormState;
+  errors: FieldErrors<FieldValues>;
   register: UseFormRegister<FieldValues>;
-  required: boolean;
 }
 
-const FormRadio: React.FC<FormInputProps> = ({ id, type, register, required }) => {
+const FormRadio: React.FC<FormInputProps> = ({ id, type, register, errors }) => {
   return (
     <div className="radio-wrapper">
       <span className="question">This is Your Art? </span>
@@ -22,7 +22,7 @@ const FormRadio: React.FC<FormInputProps> = ({ id, type, register, required }) =
           type={type}
           value="Yes"
           {...register('owner', {
-            required,
+            required: 'Owner is required',
           })}
         />
       </label>
@@ -33,10 +33,22 @@ const FormRadio: React.FC<FormInputProps> = ({ id, type, register, required }) =
           type={type}
           value="No"
           {...register('owner', {
-            required,
+            required: 'Owner is required',
           })}
         />
       </label>
+      <ErrorMessage
+        errors={errors}
+        name={id}
+        render={({ messages }) => {
+          return (
+            messages &&
+            Object.entries(messages).map(([type, message]) => (
+              <CustomErrorMessage key={type} message={message as string} />
+            ))
+          );
+        }}
+      />
     </div>
   );
 };

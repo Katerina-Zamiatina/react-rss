@@ -1,5 +1,6 @@
 .input-wrapper {
-  margin-bottom: 10px;
+  position: relative;
+  margin-bottom: 30px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   justify-content: space-between;
@@ -15,7 +16,6 @@
 
 .form-input {
   padding: 0.8em 1.2em;
-  margin-right: 10px;
   border: 1px solid #3d429f;
   box-shadow: 0px 2px 3px rgba(71, 115, 184, 0.1);
 }
@@ -26,26 +26,18 @@
   border: 1px solid #646cff;
 }
 
-/* .file-input_wrapper {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-} */
+.input-wrapper > select {
+  padding: 0.8em 1.2em;
+  border: 1px solid #3d429f;
+  box-shadow: 0px 2px 3px rgba(71, 115, 184, 0.1);
+}
 
-/* .input-file {
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  cursor: pointer;
-} */
+.input-wrapper > select:focus-visible {
+  outline-color: transparent;
+  box-shadow: inset 0px 1px 2px rgba(63, 69, 133, 0.228);
+  border: 1px solid #646cff;
+}
 
-/* .choose-btn {
-  display: inline-block;
-  background-color: #646cff;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-} */
+input[type='file' i] {
+  background-color: #fff;
+}

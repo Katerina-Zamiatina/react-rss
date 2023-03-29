@@ -1,6 +1,7 @@
 import React from 'react';
 import { UseFormRegister, FieldValues, FieldErrors } from 'react-hook-form';
-import ErrorMessage from '../ErrorMessage';
+import CustomErrorMessage from '../ErrorMessage';
+import { ErrorMessage } from '@hookform/error-message';
 import { FormState } from '../../types/types';
 import './FormInput.css';
 
@@ -10,12 +11,12 @@ export interface FormInputProps {
   id: keyof FormState;
   errors: FieldErrors<FieldValues>;
   register: UseFormRegister<FieldValues>;
-  required?: boolean;
 }
 
-const FormInput: React.FC<FormInputProps> = ({ id, label, type, register, required, errors, pattern }) => {
+const FormInput: React.FC<FormInputProps> = ({ id, label, type, register, errors }) => {
   const options = ['Sculpture', 'Painting', 'Architecture', 'Photography'];
-  const errorMessage = `${id.toUpperCase()} is required`;
+  // const { setError } = useForm();
+  const errorMessage = `${id.charAt(0).toUpperCase() + id.slice(1)} is required`;
 
   return (
     <div className="input-wrapper">
@@ -30,10 +31,9 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, register, requir
           {...register(id, {
             required: errorMessage,
             pattern: {
-              value: /^[A-Za-zА-ЯІЇЄҐа-яіїєґ\s.'-]+$/u,
+              value: /^[A-Za\s.'-]+$/u,
               message: 'Must start with a capital letter ',
             },
-            // validate: ()=>{true}
           })}
         />
       )}
@@ -42,7 +42,10 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, register, requir
           id={id}
           type={type}
           className="form-input"
-          {...register(id, { required: errorMessage })}
+          {...register(id, {
+            required: errorMessage,
+            validate: (value) => value <= new Date() || "Couldn't be in future",
+          })}
         />
       )}
       {type === 'select' && (
@@ -81,7 +84,18 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, register, requir
           {...register(id, { required: errorMessage })}
         />
       )}
-      {errors[id] && <ErrorMessage message={errors[id].message} />}
+      <ErrorMessage
+        errors={errors}
+        name={id}
+        render={({ messages }) => {
+          return (
+            messages &&
+            Object.entries(messages).map(([type, message]) => (
+              <CustomErrorMessage key={type} message={message as string} />
+            ))
+          );
+        }}
+      />
     </div>
   );
 };

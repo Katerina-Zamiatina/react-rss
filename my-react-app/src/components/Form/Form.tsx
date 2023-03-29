@@ -15,8 +15,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FieldValues>();
-
+  } = useForm<FieldValues>({ criteriaMode: 'all' });
 
   const onSubmitHandler = (data: FieldValues) => {
     convertToImgUrl(data.artwork, (result) => {
@@ -29,54 +28,18 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)} className="form">
-      <FormInput
-        id="title"
-        label="Title: "
-        type="text"
-        register={register}
-        errors={errors}
-        required
-      />
-      <FormInput
-        id="author"
-        label="Author: "
-        type="text"
-        register={register}
-        errors={errors}
-        required
-      />
-      <FormInput
-        id="addedAt"
-        label="Added at: "
-        type="date"
-        register={register}
-        errors={errors}
-        required
-      />
-      <FormInput
-        id="type"
-        label="Type:"
-        type="select"
-        register={register}
-        errors={errors}
-        required
-      />
-      <FormInput
-        id="artwork"
-        label="Artwork: "
-        type="file"
-        register={register}
-        errors={errors}
-        required
-      />
-      <FormRadio id="owner" type="radio" register={register} required />
+      <FormInput id="title" label="Title: " type="text" register={register} errors={errors} />
+      <FormInput id="author" label="Author: " type="text" register={register} errors={errors} />
+      <FormInput id="addedAt" label="Added at: " type="date" register={register} errors={errors} />
+      <FormInput id="type" label="Type:" type="select" register={register} errors={errors} />
+      <FormInput id="artwork" label="Artwork: " type="file" register={register} errors={errors} />
+      <FormRadio id="owner" type="radio" register={register} errors={errors} />
       <FormInput
         id="agreement"
         label="Agree to Data Processing: "
         type="checkbox"
         register={register}
         errors={errors}
-        required
       />
       <button type="submit" className="submit-btn">
         Submit

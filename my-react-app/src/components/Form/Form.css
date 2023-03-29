@@ -12,12 +12,12 @@
 }
 
 .radio-wrapper {
+  position: relative;
   margin-bottom: 20px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  /* justify-content: space-between; */
   align-items: center;
-  justify-items: flex-start;
+  justify-items: flex-end;
   width: 100%;
 }
 
