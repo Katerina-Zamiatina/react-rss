@@ -27,7 +27,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)} className="form">
+    <form onSubmit={handleSubmit(onSubmitHandler)} className="form-wrapper">
       <FormInput id="title" label="Title: " type="text" register={register} errors={errors} />
       <FormInput id="author" label="Author: " type="text" register={register} errors={errors} />
       <FormInput id="addedAt" label="Added at: " type="date" register={register} errors={errors} />

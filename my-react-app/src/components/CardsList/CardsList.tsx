@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CardItem from '../CardItem';
 import './CardsList.css';
 import { images } from '../../data';
@@ -16,9 +16,10 @@ export type ArtT = {
 const CardsList: React.FC = () => {
   const [arts, setArts] = useState(images);
 
-  // useEffect(() => {
-  //   setArts(images);
-  // });
+  useEffect(() => {
+    setArts(images);
+  }, [arts]);
+
   return (
     <div className="galleryWrapper">
       <ul className="gallery">
