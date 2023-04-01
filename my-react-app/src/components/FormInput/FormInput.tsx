@@ -30,7 +30,7 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, register, errors
           {...register(id, {
             required: errorMessage,
             pattern: {
-              value: /^[A-Za\s.'-]+$/u,
+              value: /^[A-ZА-Я]/u,
               message: 'Must start with a capital letter ',
             },
           })}
@@ -43,7 +43,11 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, register, errors
           className="form-input"
           {...register(id, {
             required: errorMessage,
-            validate: (value) => value <= new Date() || "Couldn't be in future",
+            validate: (value) => {
+              const date = new Date(value);
+              const today = new Date();
+              return date <= today || "Couldn't be in future";
+            },
           })}
         />
       )}
