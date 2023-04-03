@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './Input.css';
 
 interface InputProps {
@@ -8,16 +8,24 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({ name }) => {
   const [value, setValue] = useState<string>(localStorage.getItem(name) || '');
 
-  useEffect(() => {
-    const savedValue = localStorage.getItem(name);
-    if (savedValue) {
-      setValue(savedValue);
-    }
-  }, [name]);
+  const valueRef = useRef<string>(value);
 
   useEffect(() => {
-    localStorage.setItem(name, value);
-  }, [name, value]);
+    valueRef.current = value;
+  }, [value]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.setItem(name, valueRef.current);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      localStorage.setItem(name, valueRef.current);
+    };
+  }, [name]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;

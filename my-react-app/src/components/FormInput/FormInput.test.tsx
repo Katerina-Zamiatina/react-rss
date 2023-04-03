@@ -11,7 +11,10 @@ describe('FormInput component', () => {
     label: 'Title',
     type: 'text',
     id: 'title',
-    errors: { type: 'required', message: 'Title is required' } as FieldErrors<FieldValues>,
+    errors: {
+      type: 'required',
+      message: 'Title is required',
+    } as unknown as FieldErrors<FieldValues>,
     register: onRegisterMock,
   };
 
