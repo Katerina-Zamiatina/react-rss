@@ -22,7 +22,8 @@ const Input: React.FC<InputProps> = ({ name }) => {
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
-      localStorage.setItem(name, valueRef.current || '');
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      localStorage.setItem(name, valueRef.current);
     };
   }, [name]);
 
