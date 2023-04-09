@@ -13,11 +13,12 @@ const MainPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>(localStorage.getItem('inputValue') || '');
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!searchQuery) fetchTrendies();
     else fetchMoviesByQuery();
+    // eslint-disable-next-line
   }, [searchQuery]);
 
   const fetchMoviesByQuery = async () => {
@@ -27,7 +28,7 @@ const MainPage: React.FC = () => {
       setMovies((prevResults) => [...prevResults, ...results]);
       setCurrentPage((prevPage) => prevPage + 1);
     } catch (error) {
-      setError(error.message);
+      setError((error as Error).message);
     } finally {
       setIsLoading(false);
     }
@@ -39,7 +40,7 @@ const MainPage: React.FC = () => {
       const results = await movieApi.fetchTrendies();
       setTrendies(results);
     } catch (error) {
-      setError(error.message);
+      setError((error as Error).message);
     } finally {
       setIsLoading(false);
     }
@@ -59,8 +60,13 @@ const MainPage: React.FC = () => {
       <Input name="inputValue" onSubmit={handleSearchSubmit} />
       {isLoading && <Loader />}
       {error && <p>ERROR</p>}
-      {!searchQuery && <CardsList movies={trendies} />}
-      {movies.length > 0 ? <CardsList movies={movies} /> : <p>Nothing found</p>}
+      {!searchQuery ? (
+        <CardsList movies={trendies} />
+      ) : movies.length > 0 ? (
+        <CardsList movies={movies} />
+      ) : (
+        <p>Nothing found</p>
+      )}
       {shouldRenderBtn && <LoadMoreBtn onClick={fetchMoviesByQuery} />}
     </div>
   );

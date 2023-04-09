@@ -9,13 +9,15 @@ type CardsListProps = {
 
 const CardsList: React.FC<CardsListProps> = ({ movies }) => {
   return (
-    <div className="galleryWrapper">
-      <ul className="gallery">
-        {movies?.map((movie: MovieI) => (
-          <CardItem key={movie.id} movie={movie} />
-        ))}
-      </ul>
-    </div>
+    movies && (
+      <div className="galleryWrapper">
+        <ul className="gallery">
+          {movies.map((movie: MovieI) => (
+            <CardItem key={movie.id} movie={movie} />
+          ))}
+        </ul>
+      </div>
+    )
   );
 };
 

@@ -45,28 +45,28 @@ const fetchById = async (id: number) => {
   }
 };
 
-const fetchMovieCast = async (id: string) => {
-  try {
-    const { data } = await axios.get(`movie/${id}/credits`);
-    const cast = data;
-    return cast;
-  } catch (error) {
-    console.log('error', { error });
-    return [];
-  }
-};
+// const fetchMovieCast = async (id: string) => {
+//   try {
+//     const { data } = await axios.get(`movie/${id}/credits`);
+//     const cast = data;
+//     return cast;
+//   } catch (error) {
+//     console.log('error', { error });
+//     return [];
+//   }
+// };
 
-const fetchMovieReviews = async (id: string) => {
-  try {
-    const { data } = await axios.get(`movie/${id}/reviews`);
-    const reviews = data;
-    return reviews;
-  } catch (error) {
-    console.log('error', { error });
-    return [];
-  }
-};
+// const fetchMovieReviews = async (id: string) => {
+//   try {
+//     const { data } = await axios.get(`movie/${id}/reviews`);
+//     const reviews = data;
+//     return reviews;
+//   } catch (error) {
+//     console.log('error', { error });
+//     return [];
+//   }
+// };
 
-const movieApi = { fetchTrendies, fetchByQuery, fetchById, fetchMovieCast, fetchMovieReviews };
+const movieApi = { fetchTrendies, fetchByQuery, fetchById };
 
 export default movieApi;

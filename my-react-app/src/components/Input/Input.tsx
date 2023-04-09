@@ -39,7 +39,7 @@ const Input: React.FC<InputProps> = ({ name, onSubmit }) => {
 
   return (
     <div className="formWrapper">
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit} data-testid="search-form">
         <label htmlFor="">
           <input className="searchBar" type="text" value={searchValue} onChange={handleChange} />
         </label>

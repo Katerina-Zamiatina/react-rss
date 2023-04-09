@@ -31,13 +31,13 @@ const CardItem: React.FC<MovieProp> = ({ movie }) => {
 
   useEffect(() => {
     if (id) fetchMovieById();
+    // eslint-disable-next-line
   }, [id]);
 
   const fetchMovieById = async () => {
     const data = await movieApi.fetchById(id);
     setCardMovie(data);
   };
-
   return (
     <li className="item" data-testid="card-item">
       <img src={imgUrl} alt={title} className="image" />
