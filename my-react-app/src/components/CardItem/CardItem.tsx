@@ -1,29 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './CardItem.css';
-import { ArtT } from 'components/CardsList/CardsList';
+import { MovieI, MovieById } from 'types/types';
+import movieApi from '../../services/movieApi';
+import defaultImg from '../../assets/default.png';
+import { useModal } from '../../utils/useModal';
+import Portal from '../Portal';
+import ModalMovie from '../ModalMovie';
 
-type ArtProp = {
-  art: ArtT;
+type MovieProp = {
+  movie: MovieI;
 };
 
-const CardItem: React.FC<ArtProp> = ({ art }) => {
-  const data = art.added_at.slice(0, 10);
+const CardItem: React.FC<MovieProp> = ({ movie }) => {
+  const { isShown, toggle } = useModal();
+  const [cardMovie, setCardMovie] = useState<MovieById>({
+    id: 0,
+    poster_path: '',
+    title: '',
+    overview: '',
+    vote_average: 0,
+    release_date: '',
+    genres: [],
+    runtime: 0,
+    production_companies: [],
+  });
+  const { poster_path, title, id, vote_average, release_date } = movie;
+
+  const imgUrl = poster_path ? `https://image.tmdb.org/t/p/w500/${poster_path}` : defaultImg;
+  const rating = (vote_average + '').slice(0, 3);
+
+  useEffect(() => {
+    if (id) fetchMovieById();
+  }, [id]);
+
+  const fetchMovieById = async () => {
+    const data = await movieApi.fetchById(id);
+    setCardMovie(data);
+  };
 
   return (
     <li className="item" data-testid="card-item">
-      <img src={art.download_url} alt={art.title} className="image" />
+      <img src={imgUrl} alt={title} className="image" />
       <div className="infoWrapper">
         <div>
-          <h4 className="title">{art.title}</h4>
-          <p className="author">{art.author}</p>
+          <h4 className="title">{title}</h4>
         </div>
         <div>
-          <p className="description">{art.short_description}</p>
           <p className="date">
-            <span className="added">Added at </span> {data}
+            <span className="added">Release date: </span> {release_date}
           </p>
+          <p className="date">
+            <span className="added">Rating: </span> {rating}
+          </p>
+          <button onClick={toggle}>Show more</button>
         </div>
       </div>
+      {isShown && (
+        <Portal wrapperId="modal-movie">
+          <ModalMovie movie={cardMovie} isOpen={isShown} hide={toggle} />
+        </Portal>
+      )}
     </li>
   );
 };

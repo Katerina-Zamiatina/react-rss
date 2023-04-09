@@ -33,3 +33,30 @@ export interface FormInputProps {
   errors: FieldErrors<FieldValues>;
   register: UseFormRegister<FieldValues>;
 }
+
+export interface MovieI {
+  id: number;
+  poster_path: string;
+  title: string;
+  overview: string;
+  vote_average: number;
+  release_date: string;
+}
+
+export interface MovieById extends MovieI {
+  genres: [];
+  runtime: number;
+  production_companies: [];
+}
+
+export type GenreI = {
+  id?: number;
+  name: string;
+};
+
+export type ProdCI = {
+  id?: number;
+  logo?: string;
+  name: string;
+  original_country: string;
+};

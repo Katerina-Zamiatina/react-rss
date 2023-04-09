@@ -3,42 +3,47 @@ import './Input.css';
 
 interface InputProps {
   name: string;
+  onSubmit: (query: string) => void;
 }
 
-const Input: React.FC<InputProps> = ({ name }) => {
-  const [value, setValue] = useState<string>(localStorage.getItem(name) || '');
+const Input: React.FC<InputProps> = ({ name, onSubmit }) => {
+  const [searchValue, setSearchValue] = useState<string>(localStorage.getItem(name) || '');
 
-  const valueRef = useRef<string>(value);
+  const searchValueRef = useRef<string>(searchValue);
 
   useEffect(() => {
-    valueRef.current = value;
-  }, [value]);
+    searchValueRef.current = searchValue;
+  }, [searchValue]);
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      localStorage.setItem(name, valueRef.current);
+      localStorage.setItem(name, searchValueRef.current);
     };
-
     window.addEventListener('beforeunload', handleBeforeUnload);
-
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
-      localStorage.setItem(name, valueRef.current);
+      localStorage.setItem(name, searchValueRef.current);
     };
   }, [name]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
-    setValue(newValue);
+    setSearchValue(newValue);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    localStorage.setItem(name, searchValueRef.current);
+    onSubmit(searchValue);
   };
 
   return (
     <div className="formWrapper">
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit}>
         <label htmlFor="">
-          <input className="searchBar" type="text" value={value} onChange={handleChange} />
+          <input className="searchBar" type="text" value={searchValue} onChange={handleChange} />
         </label>
-        <button disabled>Search</button>
+        <button>Search</button>
       </form>
     </div>
   );
