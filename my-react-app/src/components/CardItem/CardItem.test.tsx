@@ -1,26 +1,3 @@
-// import { render, screen } from '@testing-library/react';
-// import CardItem from './CardItem';
-// import React from 'react';
-// import { MovieI } from '../../types/types';
-
-// const mockMovie: MovieI = {
-//   id: 1,
-//   title: 'Batman',
-//   poster_path: '',
-//   overview: 'Description of film',
-//   release_date: '2022-03-01',
-//   vote_average: 5,
-// };
-
-// describe('CardItem', () => {
-//   it('renders art info', () => {
-//     render(<CardItem movie={mockMovie} />);
-//     expect(screen.getByText('Batman')).toBeInTheDocument();
-//     expect(screen.getByText('Release date:')).toBeInTheDocument();
-//     expect(screen.getByText('2022-03-01')).toBeInTheDocument();
-//   });
-// });
-
 import { render, act, waitFor } from '@testing-library/react';
 import CardItem from './CardItem';
 import { vi } from 'vitest';
@@ -53,7 +30,7 @@ vi.mock('../services/movieApi', () => ({
 
 describe('CardItem', () => {
   it('renders movie info', async () => {
-    const { getByText, findByText } = render(<CardItem movie={mockMovie} />);
+    const { getByText } = render(<CardItem movie={mockMovie} />);
     expect(getByText('Batman')).toBeInTheDocument();
     const showMoreButton = getByText('Show more');
     expect(showMoreButton).toBeInTheDocument();
