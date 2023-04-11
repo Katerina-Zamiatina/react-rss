@@ -18,3 +18,4 @@ describe('Should submit the form correctly', () => {
     expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
   });
 });
+

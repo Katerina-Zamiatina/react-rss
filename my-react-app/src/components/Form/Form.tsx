@@ -4,7 +4,7 @@ import FormInput from '../FormInput';
 import FormRadio from '../FormRadio';
 import convertToImgUrl from '../../utils/convertToImgUrl';
 import './Form.css';
-import { FormState } from 'types/types';
+import { FormState } from '../../types/types';
 
 interface FormProps {
   onSubmit: (data: FormState) => void;

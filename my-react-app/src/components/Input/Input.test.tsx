@@ -29,4 +29,20 @@ describe('Card', () => {
     expect(localStorage.getItem(name)).toBe('new value');
     expect(onSubmit).toHaveBeenCalledWith('new value');
   });
+
+  it('loads search value from local storage', () => {
+    localStorage.setItem(name, 'saved value');
+    const { getByRole } = render(<Input name={name} onSubmit={() => {}} />);
+    const input = getByRole('textbox');
+    expect((input as HTMLInputElement).value).toBe('saved value');
+  });
+
+  it('saves search value to local storage on beforeunload event', () => {
+    const { getByRole } = render(<Input name={name} onSubmit={() => {}} />);
+    const input = getByRole('textbox');
+    fireEvent.change(input, { target: { value: 'new value' } });
+    const beforeUnloadEvent = new Event('beforeunload');
+    window.dispatchEvent(beforeUnloadEvent);
+    expect(localStorage.getItem(name)).toBe('new value');
+  });
 });

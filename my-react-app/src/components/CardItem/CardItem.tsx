@@ -38,6 +38,7 @@ const CardItem: React.FC<MovieProp> = ({ movie }) => {
     const data = await movieApi.fetchById(id);
     setCardMovie(data);
   };
+  
   return (
     <li className="item" data-testid="card-item">
       <img src={imgUrl} alt={title} className="image" />

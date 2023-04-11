@@ -10,7 +10,7 @@ export type ModalProps = {
 
 const ModalMovie: React.FC<ModalProps> = ({ movie, isOpen, hide }) => {
   const { title, vote_average, release_date, overview, runtime } = movie;
-  const movieGenres = movie.genres.map((genre: GenreI) => genre.name + ' ');
+  const movieGenres = movie.genres?.map((genre: GenreI) => genre.name + ' ');
   const rating = (vote_average + '').slice(0, 3);
 
   const onCloseClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -24,9 +24,13 @@ const ModalMovie: React.FC<ModalProps> = ({ movie, isOpen, hide }) => {
   return (
     <>
       {isOpen && (
-        <div className={`backdrop ${isOpen ? 'open' : ''}`} onClick={onCloseClick}>
-          <div className={`modal-wrapper ${isOpen ? 'open' : ''}`}>
-            <div className={`modal ${isOpen ? 'open' : ''}`}>
+        <div
+          className={`backdrop ${isOpen ? 'open' : ''}`}
+          onClick={onCloseClick}
+          data-testid="backdrop"
+        >
+          <div className={`modal-wrapper ${isOpen ? 'open' : ''}`} data-testid="modal-wrapper">
+            <div className={`modal ${isOpen ? 'open' : ''}`} data-testid="modal">
               <button className="close-btn" onClick={onCloseClick}>
                 X
               </button>
@@ -39,7 +43,7 @@ const ModalMovie: React.FC<ModalProps> = ({ movie, isOpen, hide }) => {
                     <span className="added">Description: </span> {overview}
                   </p>
                   <p className="date">
-                    <span className="added">Genres: </span> {movieGenres.map((name) => name)}
+                    <span className="added">Genres: </span> {movieGenres?.map((name) => name)}
                   </p>
 
                   <p className="date">

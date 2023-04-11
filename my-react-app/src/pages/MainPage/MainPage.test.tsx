@@ -38,7 +38,9 @@ describe('MainPage', () => {
 
   it('render cards', async () => {
     const { getAllByTestId } = render(<MainPage />);
+
     const gallery = await waitFor(() => getAllByTestId('card-item'));
+
     gallery.forEach((item) => {
       expect(item).toBeInTheDocument();
     });
