@@ -4,6 +4,7 @@ import CardsList from '../../components/CardsList';
 import LoadMoreBtn from '../../components/LoadMoreBtn';
 import Loader from '../../components/Loader';
 import movieApi from '../../services/movieApi';
+import { useFetchTrendies } from '../../redux/movieApi';
 import { MovieI } from '../../types/types';
 import './MainPage.css';
 
@@ -12,8 +13,10 @@ const MainPage: React.FC = () => {
   const [movies, setMovies] = useState<MovieI[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>(localStorage.getItem('inputValue') || '');
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState<string | null>(null);
+
+  const { data, error, isLoading } = useFetchTrendies();
 
   useEffect(() => {
     if (!searchQuery) fetchTrendies();
@@ -22,27 +25,27 @@ const MainPage: React.FC = () => {
   }, [searchQuery]);
 
   const fetchMoviesByQuery = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     try {
       const results = await movieApi.fetchByQuery(searchQuery, currentPage);
       setMovies((prevResults) => [...prevResults, ...results]);
       setCurrentPage((prevPage) => prevPage + 1);
     } catch (error) {
-      setError((error as Error).message);
+      // setError((error as Error).message);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
   const fetchTrendies = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     try {
       const results = await movieApi.fetchTrendies();
       setTrendies(results);
     } catch (error) {
-      setError((error as Error).message);
+      // setError((error as Error).message);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -50,7 +53,7 @@ const MainPage: React.FC = () => {
     setSearchQuery(query);
     setCurrentPage(1);
     setMovies([]);
-    setError(null);
+    // setError(null);
   };
 
   const shouldRenderBtn = movies.length > 0 && !isLoading;
