@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+
 const API_KEY = 'aeae34054ac98d0d602e1f03fa929a0c';
 const BASE_URL = 'https://api.themoviedb.org/3/';
 const trendMovies = 'trending/movie/day';
@@ -24,7 +25,7 @@ export const movieApi = createApi({
       query: ({ searchQuery, currentPage }) =>
         `${searchMovies}?api_key=${API_KEY}&query=${searchQuery}&page=${currentPage}`,
     }),
-    fetchById: builder.query<MovieI[], { id: number }>({
+    fetchById: builder.query<MovieI, { id: number }>({
       query: ({ id }) => `movie/${id}?api_key=${API_KEY}`,
     }),
   }),

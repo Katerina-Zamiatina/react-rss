@@ -3,20 +3,65 @@ import Input from '../../components/Input';
 import CardsList from '../../components/CardsList';
 import LoadMoreBtn from '../../components/LoadMoreBtn';
 import Loader from '../../components/Loader';
-import movieApi from '../../services/movieApi';
-import { useFetchTrendies } from '../../redux/movieApi';
+import { useFetchTrendies, useFetchByQuery } from '../../redux/movieApi';
 import { MovieI } from '../../types/types';
 import './MainPage.css';
+import movieApi from '../../services/movieApi';
+
+// const MainPage: React.FC = () => {
+//   const [searchQuery, setSearchQuery] = useState<string>(localStorage.getItem('inputValue') || '');
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const { data: trendies, error: errorTrendies, isLoading: isLoadingTrendies } = useFetchTrendies();
+//   const {
+//     data: movies,
+//     isLoading: isLoadingMovies,
+//     error: errorMovies,
+//     isFetching,
+//     refetch
+//   } = useFetchByQuery({ searchQuery, currentPage });
+
+
+
+//   const handleSearchSubmit = (query: string) => {
+//     setSearchQuery(query);
+//     setCurrentPage(1);
+//   };
+
+//   const handleLoadMoreClick = () => {
+//     setCurrentPage((page) => page + 1);
+//   };
+
+//   const shouldRenderBtn = movies?.length && !isFetching;
+
+//   return (
+//     <div className="mainPage">
+//       <Input name="inputValue" onSubmit={handleSearchSubmit} />
+//       {isLoadingTrendies && <Loader />}
+//       {errorTrendies && <p>ERROR</p>}
+//       {!searchQuery ? (
+//         <CardsList movies={trendies ?? []} />
+//       ) : movies?.length ? (
+//         <CardsList movies={movies as MovieI[]} />
+//       ) : (
+//         <p>Nothing found</p>
+//       )}
+//       {shouldRenderBtn && (
+//         <LoadMoreBtn onClick={() => fetchByQuery(searchQuery, currentPage + 1)} />
+//       )}
+//       {isFetching && <Loader />}
+//     </div>
+//   );
+// };
+
+// export default MainPage;
 
 const MainPage: React.FC = () => {
   const [trendies, setTrendies] = useState<MovieI[]>([]);
   const [movies, setMovies] = useState<MovieI[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>(localStorage.getItem('inputValue') || '');
   const [currentPage, setCurrentPage] = useState(1);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState<string | null>(null);
-
-  const { data, error, isLoading } = useFetchTrendies();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!searchQuery) fetchTrendies();
@@ -25,27 +70,27 @@ const MainPage: React.FC = () => {
   }, [searchQuery]);
 
   const fetchMoviesByQuery = async () => {
-    // setIsLoading(true);
+    setIsLoading(true);
     try {
       const results = await movieApi.fetchByQuery(searchQuery, currentPage);
       setMovies((prevResults) => [...prevResults, ...results]);
       setCurrentPage((prevPage) => prevPage + 1);
     } catch (error) {
-      // setError((error as Error).message);
+      setError((error as Error).message);
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
   const fetchTrendies = async () => {
-    // setIsLoading(true);
+    setIsLoading(true);
     try {
       const results = await movieApi.fetchTrendies();
       setTrendies(results);
     } catch (error) {
-      // setError((error as Error).message);
+      setError((error as Error).message);
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -53,7 +98,7 @@ const MainPage: React.FC = () => {
     setSearchQuery(query);
     setCurrentPage(1);
     setMovies([]);
-    // setError(null);
+    setError(null);
   };
 
   const shouldRenderBtn = movies.length > 0 && !isLoading;

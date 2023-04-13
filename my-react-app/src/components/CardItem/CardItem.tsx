@@ -29,14 +29,14 @@ const CardItem: React.FC<MovieProp> = ({ movie }) => {
   const imgUrl = poster_path ? `https://image.tmdb.org/t/p/w500/${poster_path}` : defaultImg;
   const rating = (vote_average + '').slice(0, 3);
 
-  useEffect(() => {
-    if (id) fetchMovieById();
-    // eslint-disable-next-line
-  }, [id]);
-
   const fetchMovieById = async () => {
     const data = await movieApi.fetchById(id);
     setCardMovie(data);
+  };
+
+  const onShowMoreDetails = () => {
+    fetchMovieById();
+    toggle();
   };
 
   return (
@@ -53,7 +53,7 @@ const CardItem: React.FC<MovieProp> = ({ movie }) => {
           <p className="date">
             <span className="added">Rating: </span> {rating}
           </p>
-          <button onClick={toggle}>Show more</button>
+          <button onClick={onShowMoreDetails}>Show more</button>
         </div>
       </div>
       {isShown && (

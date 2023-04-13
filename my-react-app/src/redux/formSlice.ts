@@ -21,4 +21,4 @@ const formSlice = createSlice({
 
 export const { addFormData } = formSlice.actions;
 
-export default formSlice;
+export default formSlice.reducer;

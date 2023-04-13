@@ -1,19 +1,19 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
+import { configureStore } from '@reduxjs/toolkit';
 
 import { movieApi } from './movieApi';
-import formSlice from './formSlice';
+import formReducer from './formSlice';
+import searchReducer from './searchSlice';
 
 const store = configureStore({
   reducer: {
-    form: formSlice.reducer,
+    form: formReducer,
+    search: searchReducer,
     [movieApi.reducerPath]: movieApi.reducer,
-    middleware: () => getDefaultMiddleware().concat(movieApi.middleware),
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(movieApi.middleware),
 });
 
-setupListeners(store.dispatch);
-
+export type RootStoreType = typeof store;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
