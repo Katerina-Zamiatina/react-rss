@@ -105,7 +105,7 @@ const MainPage: React.FC = () => {
 
   return (
     <div className="mainPage">
-      <Input name="inputValue" onSubmit={handleSearchSubmit} />
+      <Input onSubmit={handleSearchSubmit} />
       {isLoading && <Loader />}
       {error && <p>ERROR</p>}
       {!searchQuery ? (

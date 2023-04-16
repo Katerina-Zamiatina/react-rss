@@ -1,35 +1,16 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { getValue, setValue } from '../../redux/searchSlice';
 import './Input.css';
 
 interface InputProps {
-  name: string;
   onSubmit: (query: string) => void;
 }
 
-const Input: React.FC<InputProps> = ({ name, onSubmit }) => {
+const Input: React.FC<InputProps> = ({ onSubmit }) => {
   const dispatch = useAppDispatch();
   const value = useAppSelector(getValue);
   const [searchValue, setSearchValue] = useState<string>(value);
-  // const [searchValue, setSearchValue] = useState<string>(localStorage.getItem(name) || '');
-
-  // const searchValueRef = useRef<string>(searchValue);
-
-  // useEffect(() => {
-  //   searchValueRef.current = searchValue;
-  // }, [searchValue]);
-
-  // useEffect(() => {
-  //   const handleBeforeUnload = () => {
-  //     localStorage.setItem(name, searchValueRef.current);
-  //   };
-  //   window.addEventListener('beforeunload', handleBeforeUnload);
-  //   return () => {
-  //     window.removeEventListener('beforeunload', handleBeforeUnload);
-  //     localStorage.setItem(name, searchValueRef.current);
-  //   };
-  // }, [name]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -40,12 +21,6 @@ const Input: React.FC<InputProps> = ({ name, onSubmit }) => {
     dispatch(setValue(searchValue));
     onSubmit(searchValue);
   };
-
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   localStorage.setItem(name, searchValueRef.current);
-  //   onSubmit(searchValue);
-  // };
 
   return (
     <div className="formWrapper">

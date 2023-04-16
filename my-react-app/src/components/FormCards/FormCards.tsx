@@ -1,17 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 import { v4 as uuidv4 } from 'uuid';
-import { FormState } from 'types/types';
 import './FormCards.css';
 
-type FormCardsProps = {
-  cards: FormState[];
-};
 
-const FormCards: React.FC<FormCardsProps> = ({ cards }) => {
+const FormCards: React.FC = () => {
+  const formList = useSelector((state: RootState) => state.form.formList);
+
   return (
     <div className="form-gallery_wrapper">
       <ul className="form-gallery">
-        {cards.map((card) => (
+        {formList.map((card) => (
           <li key={uuidv4()} className="form-gallery_item" data-testid="card-item">
             <img src={card.artwork} alt={card.title} className="image" />
             <div className="infoWrapper">

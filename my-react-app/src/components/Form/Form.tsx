@@ -1,16 +1,15 @@
 import React from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { addFormData } from '../../redux/formSlice';
 import FormInput from '../FormInput';
 import FormRadio from '../FormRadio';
 import convertToImgUrl from '../../utils/convertToImgUrl';
 import './Form.css';
 import { FormState } from '../../types/types';
 
-interface FormProps {
-  onSubmit: (data: FormState) => void;
-}
-
-const Form: React.FC<FormProps> = ({ onSubmit }) => {
+const Form: React.FC = () => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -21,7 +20,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
   const onSubmitHandler = (data: FieldValues) => {
     convertToImgUrl(data.artwork, (result) => {
       data.artwork = result;
-      onSubmit(data as FormState);
+      dispatch(addFormData(data as FormState));
       alert('Your art was successfully added');
       reset();
     });
