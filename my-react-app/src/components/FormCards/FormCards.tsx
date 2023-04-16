@@ -1,12 +1,12 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 import { v4 as uuidv4 } from 'uuid';
 import './FormCards.css';
 
 
 const FormCards: React.FC = () => {
-  const formList = useSelector((state: RootState) => state.form.formList);
+  const formList = useAppSelector((state: RootState) => state.form.formList);
 
   return (
     <div className="form-gallery_wrapper">

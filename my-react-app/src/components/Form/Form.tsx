@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../redux/hooks';
 import { addFormData } from '../../redux/formSlice';
 import FormInput from '../FormInput';
 import FormRadio from '../FormRadio';
@@ -9,7 +9,7 @@ import './Form.css';
 import { FormState } from '../../types/types';
 
 const Form: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,

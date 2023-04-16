@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './CardItem.css';
-import { MovieI, MovieById } from 'types/types';
-import movieApi from '../../services/movieApi';
+import { MovieI } from 'types/types';
 import defaultImg from '../../assets/default.png';
 import { useModal } from '../../utils/useModal';
 import Portal from '../Portal';
@@ -13,31 +12,11 @@ type MovieProp = {
 
 const CardItem: React.FC<MovieProp> = ({ movie }) => {
   const { isShown, toggle } = useModal();
-  const [cardMovie, setCardMovie] = useState<MovieById>({
-    id: 0,
-    poster_path: '',
-    title: '',
-    overview: '',
-    vote_average: 0,
-    release_date: '',
-    genres: [],
-    runtime: 0,
-    production_companies: [],
-  });
   const { poster_path, title, id, vote_average, release_date } = movie;
 
   const imgUrl = poster_path ? `https://image.tmdb.org/t/p/w500/${poster_path}` : defaultImg;
   const rating = (vote_average + '').slice(0, 3);
 
-  const fetchMovieById = async () => {
-    const data = await movieApi.fetchById(id);
-    setCardMovie(data);
-  };
-
-  const onShowMoreDetails = () => {
-    fetchMovieById();
-    toggle();
-  };
 
   return (
     <li className="item" data-testid="card-item">
@@ -53,12 +32,12 @@ const CardItem: React.FC<MovieProp> = ({ movie }) => {
           <p className="date">
             <span className="added">Rating: </span> {rating}
           </p>
-          <button onClick={onShowMoreDetails}>Show more</button>
+          <button onClick={toggle}>Show more</button>
         </div>
       </div>
       {isShown && (
         <Portal wrapperId="modal-movie">
-          <ModalMovie movie={cardMovie} isOpen={isShown} hide={toggle} />
+          <ModalMovie id={id} isOpen={isShown} hide={toggle} />
         </Portal>
       )}
     </li>

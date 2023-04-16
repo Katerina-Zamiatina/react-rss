@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { MovieById } from 'types/types';
 
 
 const API_KEY = 'aeae34054ac98d0d602e1f03fa929a0c';
@@ -25,8 +26,8 @@ export const movieApi = createApi({
       query: ({ searchQuery, currentPage }) =>
         `${searchMovies}?api_key=${API_KEY}&query=${searchQuery}&page=${currentPage}`,
     }),
-    fetchById: builder.query<MovieI, { id: number }>({
-      query: ({ id }) => `movie/${id}?api_key=${API_KEY}`,
+    fetchById: builder.query<MovieById,  number >({
+      query: ( id ) => `movie/${id}?api_key=${API_KEY}`,
     }),
   }),
 });

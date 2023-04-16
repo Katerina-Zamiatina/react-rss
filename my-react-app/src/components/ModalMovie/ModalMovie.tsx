@@ -1,17 +1,20 @@
 import React from 'react';
-import { MovieById, GenreI } from 'types/types';
+import { GenreI } from 'types/types';
+import { useFetchById } from '../../redux/movieApi';
 import './ModalMovie.css';
+import Loader from '../Loader';
 
 export type ModalProps = {
-  movie: MovieById;
+  id: number;
   isOpen: boolean;
   hide: () => void;
 };
 
-const ModalMovie: React.FC<ModalProps> = ({ movie, isOpen, hide }) => {
-  const { title, vote_average, release_date, overview, runtime } = movie;
-  const movieGenres = movie.genres?.map((genre: GenreI) => genre.name + ' ');
-  const rating = (vote_average + '').slice(0, 3);
+const ModalMovie: React.FC<ModalProps> = ({ id, isOpen, hide }) => {
+  const { data: movie, error, isFetching } = useFetchById(id);
+
+  const movieGenres = movie?.genres.map((genre: GenreI) => genre.name + ' ');
+  const rating = (movie?.vote_average + '').slice(0, 3);
 
   const onCloseClick = (event: React.MouseEvent<HTMLElement>) => {
     const isBackdrop = event.target === event.currentTarget;
@@ -23,7 +26,9 @@ const ModalMovie: React.FC<ModalProps> = ({ movie, isOpen, hide }) => {
 
   return (
     <>
-      {isOpen && (
+      {isFetching ? (
+        <Loader />
+      ) : (
         <div
           className={`backdrop ${isOpen ? 'open' : ''}`}
           onClick={onCloseClick}
@@ -36,21 +41,21 @@ const ModalMovie: React.FC<ModalProps> = ({ movie, isOpen, hide }) => {
               </button>
               <div className="infoWrapper">
                 <div>
-                  <h4 className="title">{title}</h4>
+                  <h4 className="title">{movie?.title}</h4>
                 </div>
                 <div>
                   <p className="date">
-                    <span className="added">Description: </span> {overview}
+                    <span className="added">Description: </span> {movie?.overview}
                   </p>
                   <p className="date">
                     <span className="added">Genres: </span> {movieGenres?.map((name) => name)}
                   </p>
 
                   <p className="date">
-                    <span className="added">Runtime: </span> {runtime} min
+                    <span className="added">Runtime: </span> {movie?.runtime} min
                   </p>
                   <p className="date">
-                    <span className="added">Release date: </span> {release_date}
+                    <span className="added">Release date: </span> {movie?.release_date}
                   </p>
                   <p className="date">
                     <span className="added">Rating: </span> {rating}
