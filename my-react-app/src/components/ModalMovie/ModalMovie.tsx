@@ -11,7 +11,7 @@ export type ModalProps = {
 };
 
 const ModalMovie: React.FC<ModalProps> = ({ id, isOpen, hide }) => {
-  const { data: movie, error, isFetching } = useFetchById(id);
+  const { data: movie, isFetching } = useFetchById(id);
 
   const movieGenres = movie?.genres.map((genre: GenreI) => genre.name + ' ');
   const rating = (movie?.vote_average + '').slice(0, 3);
@@ -27,7 +27,9 @@ const ModalMovie: React.FC<ModalProps> = ({ id, isOpen, hide }) => {
   return (
     <>
       {isFetching ? (
-        <Loader />
+        <div className={`backdrop ${isOpen ? 'open' : ''}`}>
+          <Loader />
+        </div>
       ) : (
         <div
           className={`backdrop ${isOpen ? 'open' : ''}`}

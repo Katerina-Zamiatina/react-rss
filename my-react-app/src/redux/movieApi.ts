@@ -1,19 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { MovieById } from 'types/types';
-
+import { MovieById, MovieI } from 'types/types';
 
 const API_KEY = 'aeae34054ac98d0d602e1f03fa929a0c';
 const BASE_URL = 'https://api.themoviedb.org/3/';
 const trendMovies = 'trending/movie/day';
 const searchMovies = 'search/movie';
 
-interface MovieI {
-  id: number;
-  title: string;
-  poster_path: string;
-  vote_average: number;
-  release_date: string;
-}
+type ResponseData = { page: number; results: MovieI[]; total_pages: number; total_results: number };
 
 export const movieApi = createApi({
   reducerPath: 'movieApi',
@@ -21,13 +14,15 @@ export const movieApi = createApi({
   endpoints: (builder) => ({
     fetchTrendies: builder.query<MovieI[], void>({
       query: () => `${trendMovies}?api_key=${API_KEY}`,
+      transformResponse: (response: ResponseData) => response.results,
     }),
-    fetchByQuery: builder.query<MovieI[], { searchQuery: string; currentPage: number }>({
-      query: ({ searchQuery, currentPage }) =>
-        `${searchMovies}?api_key=${API_KEY}&query=${searchQuery}&page=${currentPage}`,
+    fetchByQuery: builder.query<MovieI[], { value: string; currentPage: number }>({
+      query: ({ value, currentPage }) =>
+        `${searchMovies}?api_key=${API_KEY}&query=${value}&page=${currentPage}`,
+      transformResponse: (response: ResponseData) => response.results,
     }),
-    fetchById: builder.query<MovieById,  number >({
-      query: ( id ) => `movie/${id}?api_key=${API_KEY}`,
+    fetchById: builder.query<MovieById, number>({
+      query: (id) => `movie/${id}?api_key=${API_KEY}`,
     }),
   }),
 });

@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import CardItem from '../CardItem';
 import './CardsList.css';
 import { MovieI } from 'types/types';
@@ -13,7 +14,7 @@ const CardsList: React.FC<CardsListProps> = ({ movies }) => {
       <div className="galleryWrapper">
         <ul className="gallery">
           {movies.map((movie: MovieI) => (
-            <CardItem key={movie.id} movie={movie} />
+            <CardItem key={uuidv4()} movie={movie} />
           ))}
         </ul>
       </div>
