@@ -4,7 +4,7 @@ import './Loader.css';
 
 export default function Loader() {
   return (
-    <div>
+    <div data-testid="loader">
       <div className="loader-wrapper">
         <Watch color="#646cff" height={80} width={80} ariaLabel="watch-loading" radius="48" />
       </div>

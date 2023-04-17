@@ -2,9 +2,13 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import renderWithProvider from '../../utils/test-utils';
 import FormCards from './FormCards';
+import Form from '../Form';
 
 describe('FormCards', () => {
-  it('renders a card for each form in the list', () => {
+  it('renders a card for each form submit in the list', () => {
+    const { getByTestId } = renderWithProvider(<Form />);
+    // const submitBtn = getByTestId('submit-btn');
+
     renderWithProvider(<FormCards />);
 
     expect(screen.getByTestId('form-item')).toBeInTheDocument();

@@ -7,5 +7,6 @@ describe('Error message', () => {
     const errorMessage = 'This field is required';
     render(<CustomErrorMessage message={errorMessage} />);
     expect(screen.getByTestId('custom-error')).toBeInTheDocument();
+    expect(screen.getByText('This field is required')).toBeInTheDocument();
   });
 });

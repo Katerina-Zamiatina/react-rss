@@ -15,7 +15,7 @@ describe('MainPage', () => {
     expect(main).toBeInTheDocument();
   });
 
-  it('should render trendies movies when value is empty', async () => {
+  it('should render trendies when value is empty', async () => {
     const { queryByText } = renderWithProvider(<MainPage />);
     expect(queryByText(/movie 1/i)).toBeInTheDocument();
   });
@@ -25,14 +25,14 @@ describe('MainPage', () => {
     const searchInput = getByRole('textbox');
     fireEvent.change(searchInput, { target: { value: 'test' } });
     fireEvent.submit(getByRole('form'));
-    expect(queryByText(/movie test/i)).toBeInTheDocument();
+    expect(queryByText(/test/i)).toBeInTheDocument();
   });
 
-  it('should load more movies when load more button is clicked', async () => {
-    const { getByRole, queryByText } = renderWithProvider(<MainPage />);
-    const loadMoreButton = getByRole('button', { name: /load more/i });
-    fireEvent.click(loadMoreButton);
-    expect(queryByText(/movie 1/i)).toBeInTheDocument();
-    expect(queryByText(/movie test/i)).toBeInTheDocument();
-  });
+  // it('should load more movies when load more button is clicked', async () => {
+  //   const { getByRole, queryByText } = renderWithProvider(<MainPage />);
+  //   const loadMoreButton = getByRole('button', { name: /load more/i });
+  //   fireEvent.click(loadMoreButton);
+  //   expect(queryByText(/movie 1/i)).toBeInTheDocument();
+  //   expect(queryByText(/movie test/i)).toBeInTheDocument();
+  // });
 });

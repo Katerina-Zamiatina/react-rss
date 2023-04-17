@@ -37,6 +37,7 @@ describe('CardItem', () => {
     act(() => {
       showMoreButton.click();
     });
+
     await waitFor(() => {
       expect(getByText('Batman')).toBeInTheDocument();
       expect(getByText('Description:')).toBeInTheDocument();
