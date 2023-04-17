@@ -27,7 +27,7 @@ const ModalMovie: React.FC<ModalProps> = ({ id, isOpen, hide }) => {
   return (
     <>
       {isFetching ? (
-        <div className={`backdrop ${isOpen ? 'open' : ''}`}>
+        <div className={`backdrop ${isOpen ? 'open' : ''}`} data-testid="backdrop">
           <Loader />
         </div>
       ) : (
@@ -41,7 +41,7 @@ const ModalMovie: React.FC<ModalProps> = ({ id, isOpen, hide }) => {
               <button className="close-btn" onClick={onCloseClick}>
                 X
               </button>
-              <div className="infoWrapper">
+              <div className="infoWrapper" data-testid="movie-details">
                 <div>
                   <h4 className="title">{movie?.title}</h4>
                 </div>

@@ -48,7 +48,11 @@ const MainPage: React.FC = () => {
   };
 
   if (isLoadingTrendies || isLoadingMovies || isFetching) {
-    return <Loader />;
+    return (
+      <div className="mainPage" data-testid="mainPage">
+        <Loader />
+      </div>
+    );
   }
 
   if (errorTrendies || errorMovies) {
@@ -57,7 +61,7 @@ const MainPage: React.FC = () => {
 
   if (!value && trendies) {
     return (
-      <div className="mainPage">
+      <div className="mainPage" data-testid="mainPage">
         <Input onSubmit={handleSearchSubmit} />
         <CardsList movies={trendies} />;
       </div>
@@ -74,7 +78,11 @@ const MainPage: React.FC = () => {
     );
   }
 
-  return <p>Nothing found</p>;
+  return (
+    <div className="mainPage" data-testid="mainPage">
+      <p>Nothing found</p>
+    </div>
+  );
 };
 
 export default MainPage;

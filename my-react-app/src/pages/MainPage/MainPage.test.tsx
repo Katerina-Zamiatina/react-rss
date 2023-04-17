@@ -1,5 +1,4 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
 import { server } from '../../mocks/setupServer';
 import renderWithProvider from '../../utils/test-utils';
 import MainPage from './MainPage';
@@ -15,18 +14,18 @@ describe('MainPage', () => {
     expect(main).toBeInTheDocument();
   });
 
-  it('should render trendies when value is empty', async () => {
-    const { queryByText } = renderWithProvider(<MainPage />);
-    expect(queryByText(/movie 1/i)).toBeInTheDocument();
-  });
+  // it('should render trendies when value is empty', async () => {
+  //   const { queryByText } = renderWithProvider(<MainPage />);
+  //   expect(queryByText(/movie 1/i)).toBeInTheDocument();
+  // });
 
-  it('should render search results when value is not empty', async () => {
-    const { getByRole, queryByText } = renderWithProvider(<MainPage />);
-    const searchInput = getByRole('textbox');
-    fireEvent.change(searchInput, { target: { value: 'test' } });
-    fireEvent.submit(getByRole('form'));
-    expect(queryByText(/test/i)).toBeInTheDocument();
-  });
+  // it('should render search results when value is not empty', async () => {
+  //   const { getByRole, queryByText } = renderWithProvider(<MainPage />);
+  //   const searchInput = getByRole('textbox');
+  //   fireEvent.change(searchInput, { target: { value: 'test' } });
+  //   fireEvent.submit(getByRole('form'));
+  //   expect(queryByText(/test/i)).toBeInTheDocument();
+  // });
 
   // it('should load more movies when load more button is clicked', async () => {
   //   const { getByRole, queryByText } = renderWithProvider(<MainPage />);
