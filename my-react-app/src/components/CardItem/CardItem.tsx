@@ -17,7 +17,6 @@ const CardItem: React.FC<MovieProp> = ({ movie }) => {
   const imgUrl = poster_path ? `https://image.tmdb.org/t/p/w500/${poster_path}` : defaultImg;
   const rating = (vote_average + '').slice(0, 3);
 
-
   return (
     <li className="item" data-testid="card-item">
       <img src={imgUrl} alt={title} className="image" />

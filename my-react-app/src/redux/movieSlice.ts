@@ -1,6 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// import { AppThunk } from '../store';
-import movieApi from '../services/movieApi';
 import { MovieI } from '../types/types';
 
 interface MainPageState {

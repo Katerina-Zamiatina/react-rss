@@ -66,7 +66,7 @@ const MainPage: React.FC = () => {
 
   if (movies?.length) {
     return (
-      <div className="mainPage">
+      <div className="mainPage" data-testid="mainPage">
         <Input onSubmit={handleSearchSubmit} />
         <CardsList movies={currentMovies} />
         <LoadMoreBtn onClick={handleLoadMoreClick} />

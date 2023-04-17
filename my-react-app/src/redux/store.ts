@@ -1,20 +1,24 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import type { PreloadedState } from '@reduxjs/toolkit';
 
 import { movieApi } from './movieApi';
 import formReducer from './formSlice';
 import searchReducer from './searchSlice';
 
-const store = configureStore({
-  reducer: {
-    form: formReducer,
-    search: searchReducer,
-    [movieApi.reducerPath]: movieApi.reducer,
-  },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(movieApi.middleware),
+export const rootReducer = combineReducers({
+  form: formReducer,
+  search: searchReducer,
+  [movieApi.reducerPath]: movieApi.reducer,
 });
 
-export type RootStoreType = typeof store;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(movieApi.middleware),
+  });
+};
 
-export default store;
+export type RootStoreType = ReturnType<typeof setupStore>;
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppDispatch = RootStoreType['dispatch'];

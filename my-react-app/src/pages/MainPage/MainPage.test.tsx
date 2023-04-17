@@ -1,48 +1,38 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
-import { vi } from 'vitest';
+import { fireEvent } from '@testing-library/react';
+import { server } from '../../mocks/setupServer';
+import renderWithProvider from '../../utils/test-utils';
 import MainPage from './MainPage';
 
 describe('MainPage', () => {
-  beforeEach(() => {
-    vi.resetAllMocks();
-    localStorage.clear();
-  });
+  beforeAll(() => server.listen());
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
 
   it('renders without crashing', () => {
-    render(<MainPage />);
+    const { getByTestId } = renderWithProvider(<MainPage />);
+    const main = getByTestId('mainPage');
+    expect(main).toBeInTheDocument();
   });
 
-  it('renders input field', () => {
-    const { getByRole } = render(<MainPage />);
-    const input = getByRole('textbox');
-    expect(input).toBeInTheDocument();
+  it('should render trendies movies when value is empty', async () => {
+    const { queryByText } = renderWithProvider(<MainPage />);
+    expect(queryByText(/movie 1/i)).toBeInTheDocument();
   });
 
-  it('renders CardsList component', () => {
-    const { getByRole } = render(<MainPage />);
-    expect(getByRole('list')).toBeInTheDocument();
+  it('should render search results when value is not empty', async () => {
+    const { getByRole, queryByText } = renderWithProvider(<MainPage />);
+    const searchInput = getByRole('textbox');
+    fireEvent.change(searchInput, { target: { value: 'test' } });
+    fireEvent.submit(getByRole('form'));
+    expect(queryByText(/movie test/i)).toBeInTheDocument();
   });
 
-  it('renders "Nothing found" if no results', () => {
-    const { getByText, getByRole } = render(<MainPage />);
-    const input = getByRole('textbox');
-    const button = getByRole('button');
-
-    fireEvent.change(input, { target: { value: 'Some non-existing movie title' } });
-    fireEvent.click(button);
-
-    const nothingFound = getByText('Nothing found');
-    expect(nothingFound).toBeInTheDocument();
-  });
-
-  it('render cards', async () => {
-    const { getAllByTestId } = render(<MainPage />);
-
-    const gallery = await waitFor(() => getAllByTestId('card-item'));
-
-    gallery.forEach((item) => {
-      expect(item).toBeInTheDocument();
-    });
+  it('should load more movies when load more button is clicked', async () => {
+    const { getByRole, queryByText } = renderWithProvider(<MainPage />);
+    const loadMoreButton = getByRole('button', { name: /load more/i });
+    fireEvent.click(loadMoreButton);
+    expect(queryByText(/movie 1/i)).toBeInTheDocument();
+    expect(queryByText(/movie test/i)).toBeInTheDocument();
   });
 });

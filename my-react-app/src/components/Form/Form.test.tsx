@@ -1,13 +1,11 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
+import { screen } from '@testing-library/react';
+import renderWithProvider from '../../utils/test-utils';
 import Form from './Form';
 
-describe('Should submit the form correctly', () => {
+describe('Should render form', () => {
   it('should render correctly', () => {
-    const onSubmit = vi.fn();
-    render(<Form onSubmit={onSubmit} />);
-
+    renderWithProvider(<Form />);
     expect(screen.getByLabelText(/title/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/author/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/added at/i)).toBeInTheDocument();
@@ -15,6 +13,8 @@ describe('Should submit the form correctly', () => {
     expect(screen.getByRole('radio', { name: /yes/i })).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: /no/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/artwork/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
+
+    const submitBtn = screen.getByRole('button', { name: /submit/i });
+    expect(submitBtn).toBeInTheDocument();
   });
 });

@@ -1,8 +1,15 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import ModalMovie, { ModalProps } from './ModalMovie';
 import { vi } from 'vitest';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import ModalMovie, { ModalProps } from './ModalMovie';
 import { MovieById } from '../../types/types';
+import { RootStoreType } from '../../redux/store';
+
+vi.mock('../../redux/movieApi.ts');
+const mockHide = vi.fn();
+const mockStore = configureStore();
 
 const movie: MovieById = {
   id: 1,
@@ -17,17 +24,34 @@ const movie: MovieById = {
   vote_average: 8.7,
 };
 
-const mockHide = vi.fn();
-
 const props: ModalProps = {
-  movie: movie,
+  id: 1,
   isOpen: true,
   hide: mockHide,
 };
 
+const initialState = {
+  movie,
+};
+
 describe('ModalMovie', () => {
+  let store: RootStoreType;
+
+  beforeEach(() => {
+    store = mockStore(initialState);
+
+    vi.fn().mockImplementation(() => ({
+      data: movie,
+      isFetching: false,
+    }));
+  });
+
   it('displays movie details when open', () => {
-    const { getByText, queryByText, getByTestId } = render(<ModalMovie {...props} />);
+    const { getByText, queryByText, getByTestId } = render(
+      <Provider store={store}>
+        <ModalMovie {...props} />
+      </Provider>
+    );
     expect(getByTestId('backdrop')).toBeInTheDocument();
     expect(getByTestId('modal-wrapper')).toBeInTheDocument();
     expect(getByTestId('modal')).toBeInTheDocument();

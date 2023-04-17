@@ -3,6 +3,7 @@ import { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import './App.css';
+import Loader from './components/Loader';
 
 const MainPage = lazy(() => import('./pages/MainPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
@@ -13,7 +14,7 @@ function App() {
   return (
     <>
       <Header />
-      <Suspense>
+      <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/about" element={<AboutPage />} />

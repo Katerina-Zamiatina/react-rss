@@ -27,6 +27,7 @@ const FormInput: React.FC<FormInputProps> = ({ id, label, type, register, errors
           id={id}
           type={type}
           className="form-input"
+          data-testid="text-input"
           {...register(id, {
             required: errorMessage,
             pattern: {

@@ -41,7 +41,7 @@ const Form: React.FC = () => {
         register={register}
         errors={errors}
       />
-      <button type="submit" className="submit-btn">
+      <button type="submit" className="submit-btn" data-testid="submit-button">
         Submit
       </button>
     </form>
